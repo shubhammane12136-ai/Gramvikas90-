@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In — GramVikas Village Portal</title>
+    <meta name="description" content="Sign in to GramVikas - Village Development & Citizen Grievance Portal for villagers and Sarpanch." />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="pro-effects.css">
+    <style>
+        .role-tabs-3 {
+            display: grid;
+            grid-template-columns: 1.2fr 1.2fr;
+            gap: 8px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 5px;
+            margin-bottom: 22px;
+        }
+        .sarpanch-badge-box {
+            background: rgba(22, 163, 74, 0.08);
+            border: 1px solid rgba(22, 163, 74, 0.25);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 18px;
+            font-size: 11.5px;
+            color: var(--text);
+            line-height: 1.55;
+        }
+        .sarpanch-badge-box strong {
+            color: #15803d;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 12px;
+        }
+        .quick-autofill-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 11px;
+            margin-top: 8px;
+            border-radius: 8px;
+            background: #15803d;
+            color: #fff;
+            font-size: 10.5px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .quick-autofill-btn:hover {
+            background: #166534;
+            transform: translateY(-1px);
+        }
+        .demo-chip-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--surface-2);
+            border: 1px dashed var(--border);
+            border-radius: 10px;
+            padding: 9px 12px;
+            margin-top: 14px;
+            font-size: 11px;
+            color: var(--muted);
+        }
+        .demo-chip-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .demo-chip-btn:hover {
+            filter: brightness(1.1);
+        }
+    </style>
+</head>
+<body class="auth-body">
+
+    <div class="auth-shell">
+
+        <!-- ============ LEFT BRANDING PANEL ============ -->
+        <div class="auth-brand">
+
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-house-chimney"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>Gram<span>Vikas</span></h2>
+                    <small>Village Development & Grievance Portal</small>
+                </div>
+            </div>
+
+            <div class="auth-brand-copy">
+                <h1>Citizen Voice. Sarpanch Action.</h1>
+                <p>
+                    A unified digital panchayat portal empowering villagers to submit complaints
+                    directly to the Sarpanch and track approval, pending, or cancellation with official feedback.
+                </p>
+            </div>
+
+            <ul class="auth-brand-points">
+                <li><i class="fa-solid fa-circle-check"></i> <strong>Villager Portal:</strong> Email & password login to submit and track complaints</li>
+                <li><i class="fa-solid fa-circle-check"></i> <strong>Exclusive Sarpanch Access:</strong> Dedicated verification for village administrator</li>
+                <li><i class="fa-solid fa-circle-check"></i> <strong>Live Status Workflow:</strong> Pending, Approved, and Cancelled updates with direct Sarpanch feedback</li>
+                <li><i class="fa-solid fa-circle-check"></i> <strong>Panchayat Transparency:</strong> Public work records, notices, and development scores</li>
+            </ul>
+
+            <div class="floating-icon icon-one"><i class="fa-solid fa-sun"></i></div>
+            <div class="floating-icon icon-two"><i class="fa-solid fa-seedling"></i></div>
+            <div class="floating-icon icon-three"><i class="fa-solid fa-scale-balanced"></i></div>
+
+        </div>
+
+
+        <!-- ============ RIGHT AUTH PANEL ============ -->
+        <div class="auth-panel">
+
+            <button class="header-icon auth-theme-toggle" id="authThemeToggle" title="Toggle theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+
+            <div class="auth-card">
+
+                <!-- ROLE TABS: Villager vs Sarpanch -->
+                <div class="role-tabs-3" id="roleTabsContainer">
+                    <button type="button" class="role-tab active" id="tabVillager" data-view="villagerLoginView">
+                        <i class="fa-solid fa-user"></i> Villager Login
+                    </button>
+                    <button type="button" class="role-tab" id="tabSarpanch" data-view="sarpanchLoginView">
+                        <i class="fa-solid fa-user-shield"></i> Sarpanch Login
+                    </button>
+                </div>
+
+                <!-- ==================================================
+                     1. VILLAGER LOGIN VIEW (Email + Password)
+                =================================================== -->
+                <div class="auth-view" id="villagerLoginView">
+
+                    <div class="auth-view-head">
+                        <h2>Villager Sign In</h2>
+                        <p>Sign in with your email and password to file complaints to the Sarpanch and track their live status.</p>
+                    </div>
+
+                    <form id="villagerLoginForm" novalidate>
+                        <div class="form-group">
+                            <label for="villagerEmail">Villager Email Address</label>
+                            <div class="input-icon">
+                                <i class="fa-solid fa-envelope"></i>
+                                <input
+                                    type="email"
+                                    id="villagerEmail"
+                                    placeholder="e.g. ramesh.patil@gmail.com"
+                                    autocomplete="email"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="villagerPassword">Password</label>
+                            <div class="input-icon">
+                                <i class="fa-solid fa-lock"></i>
+                                <input
+                                    type="password"
+                                    id="villagerPassword"
+                                    placeholder="Enter your password"
+                                    autocomplete="current-password"
+                                    required
+                                >
+                                <button type="button" class="toggle-eye" data-target="villagerPassword" aria-label="Toggle password visibility">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="primary-btn auth-submit" id="villagerLoginSubmitBtn">
+                            <i class="fa-solid fa-right-to-bracket"></i> Sign In to Villager Portal
+                        </button>
+                    </form>
+
+                    <!-- Quick Demo Villager Helper -->
+                    <div class="demo-chip-box">
+                        <span><i class="fa-solid fa-bolt text-warning"></i> Demo Villager Account</span>
+                        <button type="button" class="demo-chip-btn" id="autofillVillagerDemoBtn">
+                            Quick Fill
+                        </button>
+                    </div>
+
+                    <p class="auth-switch">
+                        New to the village?
+                        <a href="#" id="openRegisterLink"><i class="fa-solid fa-user-plus"></i> Create Villager Account</a>
+                    </p>
+
+                    <p class="auth-switch" style="margin-top: 10px; font-size: 11px;">
+                        <a href="#" id="openContractorViewLink"><i class="fa-solid fa-helmet-safety"></i> Contractor Portal Login</a>
+                    </p>
+
+                </div>
+
+
+                <!-- ==================================================
+                     2. SARPANCH LOGIN VIEW (Strict Authentication)
+                     Email: piyushyadav3077@gmail.com | Pass: 816111
+                =================================================== -->
+                <div class="auth-view" id="sarpanchLoginView" hidden>
+
+                    <div class="auth-view-head">
+                        <h2>Sarpanch Portal Login</h2>
+                        <p>Authorized access for the Sarpanch to inspect complaints, set status as Approved/Cancelled/Pending, and send feedback.</p>
+                    </div>
+
+                    <div class="sarpanch-badge-box">
+                        <strong><i class="fa-solid fa-shield-halved"></i> Authorized Sarpanch Access Only</strong>
+                        <span>Under Gram Panchayat security protocol, only the official village Sarpanch can access this desk.</span>
+                        <div style="margin-top: 6px; font-size: 10.5px; color: var(--muted);">
+                            Authorized email: <strong>piyushyadav3077@gmail.com</strong>
+                        </div>
+                        <button type="button" class="quick-autofill-btn" id="autofillSarpanchBtn">
+                            <i class="fa-solid fa-key"></i> Autofill Sarpanch Credentials
+                        </button>
+                    </div>
+
+                    <form id="sarpanchLoginForm" novalidate>
+                        <div class="form-group">
+                            <label for="sarpanchEmail">Sarpanch Official Email</label>
+                            <div class="input-icon">
+                                <i class="fa-solid fa-envelope"></i>
+                                <input
+                                    type="email"
+                                    id="sarpanchEmail"
+                                    placeholder="piyushyadav3077@gmail.com"
+                                    autocomplete="email"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sarpanchPassword">Sarpanch Access Password</label>
+                            <div class="input-icon">
+                                <i class="fa-solid fa-lock"></i>
+                                <input
+                                    type="password"
+                                    id="sarpanchPassword"
+                                    placeholder="Enter Sarpanch password"
+                                    autocomplete="current-password"
+                                    required
+                                >
+                                <button type="button" class="toggle-eye" data-target="sarpanchPassword" aria-label="Toggle password visibility">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="primary-btn auth-submit"
+                            id="sarpanchLoginSubmitBtn"
+                            style="background: linear-gradient(135deg, #15803d, #047857); box-shadow: 0 10px 25px rgba(22, 163, 74, 0.28);"
+                        >
+                            <i class="fa-solid fa-shield-halved"></i> Sign In as Sarpanch
+                        </button>
+                    </form>
+
+                    <p class="auth-switch">
+                        Are you a villager?
+                        <a href="#" id="switchBackToVillagerLink"><i class="fa-solid fa-arrow-left"></i> Back to Villager Login</a>
+                    </p>
+
+                </div>
+
+
+                <!-- ==================================================
+                     3. VILLAGER REGISTRATION VIEW
+                =================================================== -->
+                <div class="auth-view" id="userRegisterView" hidden>
+
+                    <div class="auth-view-head">
+                        <h2>Villager Registration</h2>
+                        <p>Register with your details to file grievances and track Gram Panchayat decisions.</p>
+                    </div>
+
+                    <form id="userRegisterForm" novalidate>
+                        <!-- Reusable location & account fields populated by login.js -->
+                    </form>
+
+                    <p class="auth-switch">
+                        Already have an account?
+                        <a href="#" id="backToVillagerLoginFromReg"><i class="fa-solid fa-arrow-left"></i> Sign in as Villager</a>
+                    </p>
+
+                </div>
+
+
+                <!-- ==================================================
+                     4. CONTRACTOR LOGIN VIEW
+                =================================================== -->
+                <div class="auth-view" id="contractorLoginView" hidden>
+
+                    <div class="auth-view-head">
+                        <h2>Contractor Portal</h2>
+                        <p>Access assigned village development works and update project progress.</p>
+                    </div>
+
+                    <form id="contractorLoginForm">
+                        <div class="form-group">
+                            <label for="contractorNameInput">Contractor Full Name</label>
+                            <div class="input-icon">
+                                <i class="fa-solid fa-user"></i>
+                                <input id="contractorNameInput" type="text" autocomplete="name" maxlength="100" placeholder="e.g. Anand Infra Ltd" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contractorEmailInput">Assigned Work Email Address</label>
+                            <div class="input-icon">
+                                <i class="fa-solid fa-envelope"></i>
+                                <input id="contractorEmailInput" type="email" autocomplete="email" maxlength="160" placeholder="contractor@example.com" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="primary-btn auth-submit" id="contractorLoginBtn">
+                            <i class="fa-solid fa-helmet-safety"></i> Continue as Contractor
+                        </button>
+                    </form>
+
+                    <p class="auth-switch">
+                        <a href="#" id="backToVillagerFromContractor"><i class="fa-solid fa-arrow-left"></i> Back to Villager Login</a>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         TOAST MESSAGE
+    ================================= -->
+    <div class="toast" id="toast">
+        <div class="toast-icon"><i class="fa-solid fa-check"></i></div>
+        <div class="toast-content">
+            <strong id="toastTitle">Success</strong>
+            <p id="toastMessage">Operation completed successfully.</p>
+        </div>
+        <button id="closeToast" type="button" aria-label="Close notification"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="pro-effects.js"></script>
+    <script src="maharashtra-data.js"></script>
+    <script src="karnataka-data.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>

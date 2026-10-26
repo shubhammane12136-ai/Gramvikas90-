@@ -1,0 +1,1238 @@
+/* =========================================================
+   GRAMVIKAS — ADVANCED VILLAGE DEVELOPMENT DASHBOARD
+   style.css
+   ========================================================= */
+
+:root{
+  --primary:#2563eb;
+  --primary-2:#06b6d4;
+  --secondary:#7c3aed;
+  --success:#10b981;
+  --warning:#f59e0b;
+  --danger:#ef4444;
+  --text:#172033;
+  --muted:#64748b;
+  --surface:#ffffff;
+  --surface-2:#f8fafc;
+  --border:rgba(148,163,184,.22);
+  --sidebar:#0b1220;
+  --sidebar-2:#111c31;
+  --shadow:0 18px 50px rgba(15,23,42,.09);
+  --shadow-hover:0 24px 70px rgba(37,99,235,.16);
+  --radius:20px;
+  --sidebar-width:270px;
+  --header-height:78px;
+  --transition:all .28s cubic-bezier(.2,.8,.2,1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter','Noto Sans Devanagari',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:
+    radial-gradient(circle at 85% 10%,rgba(37,99,235,.08),transparent 25%),
+    radial-gradient(circle at 10% 90%,rgba(124,58,237,.06),transparent 25%),
+    var(--surface-2);
+  color:var(--text);
+  overflow-x:hidden;
+}
+body.dark-mode{
+  --text:#e5e7eb;
+  --muted:#94a3b8;
+  --surface:#111827;
+  --surface-2:#0b1120;
+  --border:rgba(148,163,184,.16);
+  --shadow:0 18px 50px rgba(0,0,0,.25);
+  background:var(--surface-2);
+}
+button,input,select,textarea{font:inherit}
+button{border:0;cursor:pointer}
+a{text-decoration:none;color:inherit}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#94a3b8;border-radius:30px}
+::-webkit-scrollbar-thumb:hover{background:#64748b}
+
+/* ===== Animated page reveal ===== */
+.main-content{
+  margin-left:var(--sidebar-width);
+  min-height:100vh;
+  transition:var(--transition);
+}
+.page-section{
+  display:none;
+  max-width:1700px;
+  margin:auto;
+  padding:28px clamp(18px,3vw,42px) 45px;
+}
+.page-section.active{
+  display:block;
+}
+.page-section.active > *{
+  animation:sectionReveal .7s both;
+}
+@keyframes sectionReveal{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:none}
+}
+
+/* ===== Highlight pulse (used when jumping to a sub-item inside a page) ===== */
+.highlight-pulse{
+  animation:highlightPulse 1.6s ease;
+}
+@keyframes highlightPulse{
+  0%{box-shadow:0 0 0 0 rgba(37,99,235,.55)}
+  60%{box-shadow:0 0 0 14px rgba(37,99,235,0)}
+  100%{box-shadow:0 0 0 0 rgba(37,99,235,0)}
+}
+
+/* ===== Sidebar ===== */
+.sidebar{
+  position:fixed;
+  z-index:1000;
+  inset:0 auto 0 0;
+  width:var(--sidebar-width);
+  display:flex;
+  flex-direction:column;
+  color:#dbeafe;
+  background:
+    linear-gradient(160deg,rgba(37,99,235,.16),transparent 32%),
+    linear-gradient(180deg,var(--sidebar),var(--sidebar-2));
+  border-right:1px solid rgba(255,255,255,.07);
+  box-shadow:12px 0 45px rgba(2,6,23,.12);
+  overflow-y:auto;
+  transition:var(--transition);
+}
+.sidebar::before{
+  content:"";
+  position:absolute;
+  width:220px;height:220px;
+  top:-110px;right:-110px;
+  border-radius:50%;
+  background:rgba(6,182,212,.12);
+  filter:blur(10px);
+  animation:floatBlob 8s ease-in-out infinite;
+}
+@keyframes floatBlob{50%{transform:translate(-30px,35px) scale(1.15)}}
+.sidebar-header{
+  min-height:88px;
+  padding:20px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
+}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-icon{
+  width:46px;height:46px;border-radius:14px;
+  display:grid;place-items:center;
+  color:white;font-size:20px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));
+  box-shadow:0 10px 30px rgba(37,99,235,.32);
+  animation:logoPulse 3s ease-in-out infinite;
+}
+@keyframes logoPulse{50%{transform:translateY(-3px);box-shadow:0 16px 35px rgba(37,99,235,.42)}}
+.logo-text h2{font-size:20px;color:white;letter-spacing:-.5px}
+.logo-text h2 span{color:#38bdf8}
+.logo-text small{display:block;color:#94a3b8;margin-top:2px;font-size:10px}
+.sidebar-close{display:none;background:transparent;color:#94a3b8;font-size:20px}
+.village-selector{
+  margin:4px 16px 18px;
+  padding:13px;
+  display:flex;align-items:center;gap:10px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:15px;
+  background:rgba(255,255,255,.055);
+  backdrop-filter:blur(14px);
+  transition:var(--transition);
+}
+.village-selector:hover{background:rgba(255,255,255,.09);transform:translateY(-2px)}
+.village-icon{
+  width:37px;height:37px;border-radius:11px;display:grid;place-items:center;
+  background:rgba(56,189,248,.12);color:#38bdf8
+}
+.village-selector div:nth-child(2){flex:1}
+.village-selector small{display:block;color:#94a3b8;font-size:10px}
+.village-selector strong{font-size:13px;color:#fff}
+.village-selector > i{color:#64748b;font-size:11px}
+.sidebar-nav{padding:0 12px;position:relative}
+.nav-title{
+  padding:15px 10px 8px;
+  color:#64748b;
+  font-size:9px;font-weight:800;
+  letter-spacing:1.4px;
+}
+.nav-link{
+  position:relative;
+  display:flex;align-items:center;gap:12px;
+  padding:12px 13px;
+  margin:3px 0;
+  border-radius:13px;
+  color:#a8b4c7;
+  font-size:13px;font-weight:600;
+  transition:var(--transition);
+  overflow:hidden;
+}
+.nav-link::before{
+  content:"";
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(37,99,235,.18),transparent);
+  transform:translateX(-110%);
+  transition:var(--transition);
+}
+.nav-link:hover::before,.nav-link.active::before{transform:none}
+.nav-link i,.nav-link span{position:relative;z-index:1}
+.nav-link i{width:20px;text-align:center;color:#7f8ea5;transition:var(--transition)}
+.nav-link:hover,.nav-link.active{color:white;transform:translateX(3px)}
+.nav-link:hover i,.nav-link.active i{color:#38bdf8}
+.nav-link.active{background:rgba(37,99,235,.14);box-shadow:inset 3px 0 0 #38bdf8}
+.notification-badge{
+  margin-left:auto;
+  min-width:21px;height:21px;
+  display:grid;place-items:center;
+  border-radius:99px;background:#ef4444;color:white;
+  font-size:10px;animation:badgePulse 2s infinite;
+}
+@keyframes badgePulse{50%{box-shadow:0 0 0 6px rgba(239,68,68,.08)}}
+.sidebar-footer{margin-top:auto;padding:18px 16px}
+.help-box{
+  display:flex;gap:10px;align-items:center;
+  padding:13px;border-radius:15px;
+  background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(6,182,212,.08));
+  border:1px solid rgba(56,189,248,.13);
+}
+.help-icon{color:#38bdf8;font-size:20px}
+.help-box strong{font-size:12px;color:white;display:block}
+.help-box small{font-size:9px;color:#94a3b8}
+
+/* ===== Header ===== */
+.top-header{
+  position:sticky;top:0;z-index:900;
+  height:var(--header-height);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(18px,3vw,40px);
+  background:rgba(248,250,252,.82);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(20px);
+}
+body.dark-mode .top-header{background:rgba(11,17,32,.78)}
+.header-left,.header-right{display:flex;align-items:center;gap:14px}
+.menu-toggle{
+  display:none;width:42px;height:42px;border-radius:12px;
+  background:var(--surface);color:var(--text);box-shadow:var(--shadow)
+}
+.page-title h1{font-size:19px;letter-spacing:-.4px}
+.page-title p{font-size:10px;color:var(--muted);margin-top:4px}
+.page-title p i{margin-right:5px}
+.search-box{
+  width:min(300px,28vw);height:42px;
+  display:flex;align-items:center;gap:9px;
+  padding:0 12px;border:1px solid var(--border);
+  background:var(--surface);border-radius:13px;
+  transition:var(--transition);
+}
+.search-box:focus-within{
+  border-color:rgba(37,99,235,.5);
+  box-shadow:0 0 0 4px rgba(37,99,235,.08);
+  width:min(340px,32vw);
+}
+.search-box > i{color:#94a3b8}
+.search-box input{width:100%;border:0;outline:0;background:transparent;color:var(--text);font-size:12px}
+.search-shortcut{font-size:9px;color:#94a3b8;border:1px solid var(--border);padding:4px 6px;border-radius:6px;white-space:nowrap}
+.header-icon{
+  width:40px;height:40px;border-radius:12px;
+  display:grid;place-items:center;
+  background:var(--surface);color:var(--muted);
+  border:1px solid var(--border);transition:var(--transition);
+  position:relative;
+}
+.header-icon:hover{color:var(--primary);transform:translateY(-2px);box-shadow:var(--shadow)}
+.notification-btn span{
+  position:absolute;right:8px;top:8px;width:7px;height:7px;
+  background:#ef4444;border:2px solid var(--surface);border-radius:50%
+}
+.admin-profile{display:flex;align-items:center;gap:9px;padding-left:6px}
+.profile-avatar{
+  width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+  color:white;background:linear-gradient(135deg,#2563eb,#7c3aed);
+  box-shadow:0 8px 22px rgba(37,99,235,.22)
+}
+.profile-info strong{display:block;font-size:11px}
+.profile-info small{display:block;color:var(--muted);font-size:9px;margin-top:2px}
+.admin-profile > i{font-size:9px;color:#94a3b8}
+
+/* ===== Common ===== */
+.section-heading{
+  display:flex;align-items:end;justify-content:space-between;
+  gap:20px;margin:34px 0 17px
+}
+.section-heading h2{font-size:18px;letter-spacing:-.5px}
+.section-heading p{color:var(--muted);font-size:11px;margin-top:4px}
+.filter-select,.small-select{
+  border:1px solid var(--border);background:var(--surface);color:var(--text);
+  border-radius:10px;padding:9px 12px;outline:0;font-size:11px
+}
+.primary-btn,.secondary-btn,.text-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border-radius:11px;font-weight:700;font-size:11px;
+  transition:var(--transition)
+}
+.primary-btn{
+  padding:11px 16px;color:white;
+  background:linear-gradient(135deg,var(--primary),#4f46e5);
+  box-shadow:0 10px 25px rgba(37,99,235,.22)
+}
+.primary-btn:hover{transform:translateY(-3px);box-shadow:0 15px 35px rgba(37,99,235,.3)}
+.primary-btn:active{transform:translateY(-1px)}
+.primary-btn.small{padding:10px 13px}
+
+/* The `hidden` attribute is how script.js hides admin-only
+   buttons (e.g. #addProjectBtn, #addComplaintUpdateBtn) from
+   villagers by default, only revealing them for isAdmin. But
+   .primary-btn above sets its own `display`, and an author
+   rule always beats the browser's built-in `[hidden]{display:
+   none}` rule — so without this, those buttons were visually
+   showing for everyone regardless of the hidden attribute.
+   This restores it, for any element with hidden set. */
+[hidden]{display:none!important}
+
+.secondary-btn{padding:11px 16px;background:var(--surface);color:var(--text);border:1px solid var(--border)}
+.secondary-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.text-btn{background:transparent;color:var(--primary);padding:7px}
+.text-btn:hover{gap:12px}
+.more-btn{background:transparent;color:var(--muted);padding:7px;border-radius:8px}
+.more-btn:hover{background:var(--surface-2);color:var(--primary)}
+
+/* ===== Welcome ===== */
+.welcome-banner{
+  min-height:230px;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:34px 42px;border-radius:25px;color:white;
+  background:
+    radial-gradient(circle at 90% 30%,rgba(255,255,255,.18),transparent 22%),
+    linear-gradient(120deg,#1d4ed8,#4f46e5 52%,#0891b2);
+  box-shadow:0 22px 60px rgba(37,99,235,.22);
+}
+.welcome-banner::before,.welcome-banner::after{
+  content:"";position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.12)
+}
+.welcome-banner::before{width:320px;height:320px;right:-100px;top:-140px}
+.welcome-banner::after{width:210px;height:210px;right:100px;bottom:-160px}
+.welcome-text{position:relative;z-index:2;max-width:700px}
+.welcome-label{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 9px;border-radius:99px;background:rgba(255,255,255,.12);
+  font-size:10px;backdrop-filter:blur(8px)
+}
+.welcome-label i{animation:sparkle 1.6s infinite}
+@keyframes sparkle{50%{transform:rotate(18deg) scale(1.2)}}
+.welcome-text h2{font-size:29px;line-height:1.15;margin:13px 0 9px;letter-spacing:-1px}
+.welcome-text p{font-size:12px;line-height:1.7;color:#dbeafe;margin-bottom:20px}
+.welcome-illustration{position:relative;width:250px;height:180px;flex:none}
+.illustration-circle{
+  position:absolute;width:125px;height:125px;left:60px;top:28px;
+  display:grid;place-items:center;border-radius:50%;
+  color:white;font-size:56px;
+  background:rgba(255,255,255,.11);
+  border:1px solid rgba(255,255,255,.2);
+  box-shadow:0 0 0 25px rgba(255,255,255,.025),0 0 0 50px rgba(255,255,255,.018);
+  animation:illustrationFloat 4s ease-in-out infinite
+}
+@keyframes illustrationFloat{50%{transform:translateY(-10px) rotate(2deg)}}
+.floating-icon{
+  position:absolute;width:42px;height:42px;display:grid;place-items:center;
+  border-radius:13px;background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(8px)
+}
+.icon-one{right:18px;top:14px;animation:float1 4s infinite}
+.icon-two{left:4px;top:15px;animation:float2 4.7s infinite}
+.icon-three{right:42px;bottom:8px;animation:float3 4.3s infinite}
+@keyframes float1{50%{transform:translate(5px,12px) rotate(8deg)}}
+@keyframes float2{50%{transform:translate(-5px,8px) rotate(-8deg)}}
+@keyframes float3{50%{transform:translate(4px,-8px) rotate(7deg)}}
+
+/* ===== Stats ===== */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:36px}
+.stat-card,.dashboard-card,.service-card,.indicator-card,.scheme-card,.report-card{
+  background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow)
+}
+.stat-card{
+  position:relative;overflow:hidden;border-radius:18px;padding:20px;
+  transition:var(--transition)
+}
+.stat-card::after{
+  content:"";position:absolute;width:100px;height:100px;border-radius:50%;
+  right:-45px;bottom:-45px;background:rgba(37,99,235,.05);transition:var(--transition)
+}
+.stat-card:hover{transform:translateY(-7px);box-shadow:var(--shadow-hover);border-color:rgba(37,99,235,.18)}
+.stat-card:hover::after{transform:scale(1.7)}
+.stat-top{display:flex;justify-content:space-between;align-items:center}
+.stat-icon{
+  width:45px;height:45px;border-radius:13px;display:grid;place-items:center;font-size:18px;
+}
+.stat-icon.population{background:#eff6ff;color:#2563eb}
+.stat-icon.households{background:#f5f3ff;color:#7c3aed}
+.stat-icon.education{background:#ecfeff;color:#0891b2}
+.stat-icon.development{background:#ecfdf5;color:#059669}
+.stat-icon.schools{background:#fffbeb;color:#f59e0b}
+.stat-icon.hospitals{background:#fef2f2;color:#ef4444}
+.stat-change{font-size:10px;padding:5px 8px;border-radius:99px}
+.stat-change.positive{background:#ecfdf5;color:#059669}
+.stat-content{margin-top:20px}
+.stat-content > span{font-size:10px;color:var(--muted)}
+.stat-content h3{font-size:25px;margin:5px 0;letter-spacing:-1px}
+.stat-content small{color:#94a3b8;font-size:9px}
+
+/* Admin-only "Edit" control for Village Profile stat cards
+   (Population, Households, etc.) — sits inside the card,
+   below the figure, rather than floating over a corner.
+   Only ever rendered into the DOM for admins (see
+   renderVillageStats in script.js), so no extra hiding
+   needed here. */
+.stat-edit-btn{
+  position:relative;z-index:1;
+  width:100%;margin-top:16px;padding-top:12px;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  border-top:1px solid var(--border);
+  background:transparent;color:var(--muted);
+  font-size:11px;font-weight:600;
+  transition:var(--transition)
+}
+.stat-edit-btn:hover{color:var(--primary)}
+
+/* ===== Cards / Charts ===== */
+.dashboard-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:16px}
+.dashboard-card{border-radius:18px;padding:21px;transition:var(--transition)}
+.dashboard-card:hover{box-shadow:var(--shadow-hover)}
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}
+.card-header h3{font-size:14px}
+.card-header p{font-size:10px;color:var(--muted);margin-top:4px}
+.chart-container{height:280px;margin-top:15px}
+.score-content{display:flex;align-items:center;gap:25px;min-height:280px}
+.progress-circle{
+  --progress:76%;
+  width:160px;height:160px;flex:none;border-radius:50%;
+  display:grid;place-items:center;
+  background:conic-gradient(var(--primary) var(--progress),#e5e7eb 0);
+  position:relative;transform:rotate(-90deg);
+  box-shadow:0 0 0 8px rgba(37,99,235,.05),0 15px 35px rgba(37,99,235,.12);
+}
+.progress-circle::after{
+  content:"";position:absolute;inset:13px;border-radius:50%;background:var(--surface)
+}
+.progress-inner{position:relative;z-index:2;text-align:center;transform:rotate(90deg)}
+.progress-inner strong{display:block;font-size:29px}
+.progress-inner span{font-size:9px;color:var(--success);font-weight:700}
+.score-details{flex:1}
+.score-item{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px dashed var(--border);font-size:10px}
+.score-item:last-child{border-bottom:0}
+.score-item span{color:var(--muted)}
+.score-item i{margin-right:7px;color:var(--primary)}
+.score-item strong{font-size:11px}
+
+/* ===== Services ===== */
+.service-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.service-card{display:flex;gap:13px;padding:18px;border-radius:17px;transition:var(--transition)}
+.service-card:hover{transform:translateY(-6px) scale(1.01);box-shadow:var(--shadow-hover)}
+.service-icon{width:43px;height:43px;flex:none;border-radius:12px;display:grid;place-items:center;font-size:17px}
+.service-icon.water{background:#eff6ff;color:#2563eb}
+.service-icon.electricity{background:#fffbeb;color:#f59e0b}
+.service-icon.sanitation{background:#ecfdf5;color:#10b981}
+.service-icon.roads{background:#f5f3ff;color:#7c3aed}
+.service-info{flex:1;min-width:0}
+.service-title{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.service-title h3{font-size:12px}
+.status{font-size:8px;padding:4px 7px;border-radius:99px;font-weight:700}
+.status.good{background:#ecfdf5;color:#059669}
+.status.excellent{background:#eff6ff;color:#2563eb}
+.status.average{background:#fffbeb;color:#b45309}
+.service-info p{font-size:9px;color:var(--muted);margin:6px 0 10px}
+.progress-bar{height:7px;overflow:hidden;border-radius:99px;background:#e5e7eb}
+body.dark-mode .progress-bar{background:#263244}
+.progress-fill{
+  height:100%;border-radius:inherit;
+  background:linear-gradient(90deg,var(--primary),var(--primary-2));
+  transform-origin:left;animation:progressIn 1.4s cubic-bezier(.2,.8,.2,1) both
+}
+@keyframes progressIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.service-footer{display:flex;justify-content:space-between;margin-top:7px;font-size:9px;color:var(--muted)}
+.service-footer strong{color:var(--text);font-size:10px}
+
+/* ===== Projects ===== */
+.bottom-grid{margin-top:16px}
+.project-list,.announcement-list{margin-top:8px}
+.project-item{
+  display:flex;align-items:center;gap:13px;
+  padding:14px 0;border-bottom:1px solid var(--border)
+}
+.project-item:last-child{border-bottom:0}
+.project-icon{
+  width:42px;height:42px;border-radius:12px;display:grid;place-items:center;flex:none
+}
+.road-project{background:#eff6ff;color:#2563eb}
+.water-project{background:#ecfeff;color:#0891b2}
+.school-project{background:#f5f3ff;color:#7c3aed}
+.solar-project{background:#fffbeb;color:#d97706}
+.project-details{flex:1;min-width:0}
+.project-details h4{font-size:11px}
+.project-details p{font-size:9px;color:var(--muted);margin:4px 0 8px}
+.project-progress{display:flex;align-items:center;gap:9px}
+.project-progress .progress-bar{flex:1}
+.project-progress span{font-size:9px;color:var(--muted)}
+.project-status{font-size:8px;font-weight:700;padding:5px 8px;border-radius:99px}
+.project-status.ongoing{color:#2563eb;background:#eff6ff}
+.project-status.completed{color:#059669;background:#ecfdf5}
+.project-status.planned{color:#b45309;background:#fffbeb}
+.announcement-item{display:flex;gap:11px;padding:14px 0;border-bottom:1px solid var(--border)}
+.announcement-item:last-of-type{border-bottom:0}
+.announcement-icon{width:37px;height:37px;border-radius:11px;display:grid;place-items:center;background:#eff6ff;color:#2563eb;flex:none}
+.announcement-item h4{font-size:11px}
+.announcement-item p{font-size:9px;color:var(--muted);line-height:1.5;margin:4px 0}
+.announcement-item small{font-size:8px;color:#94a3b8}
+.view-announcements{width:100%;padding:10px;margin-top:7px;background:var(--surface-2);color:var(--primary);border-radius:10px;font-size:10px;font-weight:700}
+
+/* ===== Complaints Development ===== */
+
+/* Summary cards showing how much of the resolution process is done */
+.complaints-dev-stats-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:20px 0 28px
+}
+.complaints-dev-stats-grid .stat-card .stat-content{margin-top:14px}
+
+.complaint-dev-select-hint{display:block;margin-top:6px;font-size:9px;color:var(--muted);line-height:1.5}
+
+@media (max-width: 1024px){
+  .complaints-dev-stats-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width: 560px){
+  .complaints-dev-stats-grid{grid-template-columns:1fr}
+}
+
+.complaints-dev-subtext{font-size:9.5px;color:var(--muted);margin:-8px 0 16px}
+.complaints-dev-list{display:flex;flex-direction:column;gap:12px}
+.complaints-dev-item{
+  padding:16px 18px;border:1px solid var(--border);border-radius:14px;
+  background:var(--surface-2)
+}
+.complaints-dev-item-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px
+}
+.complaints-dev-item-head h4{font-size:11.5px}
+.complaints-dev-item-head small{display:block;margin-top:3px;font-size:8.5px;color:var(--muted)}
+.complaints-dev-item > p{font-size:10px;color:var(--muted);line-height:1.6;margin-bottom:12px}
+
+/* ===== Indicators ===== */
+.indicator-grid,.scheme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.indicator-card,.scheme-card{padding:20px;border-radius:18px;transition:var(--transition)}
+.indicator-card:hover,.scheme-card:hover{transform:translateY(-7px);box-shadow:var(--shadow-hover)}
+.indicator-header{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:700}
+.indicator-icon,.scheme-icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#eff6ff;color:#2563eb}
+.indicator-card h3{font-size:28px;margin:17px 0 3px}
+.indicator-card > p{font-size:9px;color:var(--muted);margin-bottom:12px}
+.indicator-card ul{list-style:none;margin-top:13px}
+.indicator-card li{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--border);font-size:9px}
+.indicator-card li:last-child{border-bottom:0}
+.indicator-card li span{color:var(--muted)}
+.indicator-card li strong{font-size:10px}
+
+/* ===== Schemes ===== */
+.scheme-card{display:flex;gap:13px;cursor:pointer}
+.scheme-content{flex:1}
+.scheme-content h3{font-size:12px}
+.scheme-content p{font-size:9px;color:var(--muted);line-height:1.5;margin:5px 0 13px}
+.scheme-stats{display:flex;gap:18px}
+.scheme-stats span{font-size:8px;color:var(--muted)}
+.scheme-stats strong{display:block;font-size:13px;color:var(--text);margin-bottom:2px}
+.scheme-details-btn{
+  display:inline-flex;align-items:center;gap:6px;margin-top:12px;
+  background:transparent;color:var(--primary);font-size:9px;font-weight:700;
+  padding:0;transition:var(--transition)
+}
+.scheme-details-btn:hover{gap:10px}
+
+/* ===== Scheme Type Filter Bar (shown after "View All") ===== */
+.scheme-filter-bar{
+  display:none;flex-wrap:wrap;gap:9px;margin-bottom:18px
+}
+.scheme-filter-bar.visible{display:flex}
+.scheme-filter-chip{
+  display:inline-flex;align-items:center;gap:7px;padding:8px 14px;
+  border-radius:20px;background:var(--surface-2);color:var(--muted);
+  font-size:9.5px;font-weight:600;border:1px solid var(--border);
+  cursor:pointer;transition:var(--transition)
+}
+.scheme-filter-chip i{font-size:9px}
+.scheme-filter-chip:hover{color:var(--primary);border-color:var(--primary)}
+.scheme-filter-chip.active{
+  background:var(--primary);color:#fff;border-color:var(--primary)
+}
+
+/* ===== Empty state when a category has no schemes ===== */
+.scheme-empty-state{
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;padding:50px 20px;color:var(--muted);text-align:center
+}
+.scheme-empty-state.visible{display:flex}
+.scheme-empty-state i{font-size:26px;color:var(--border)}
+.scheme-empty-state p{font-size:10.5px}
+
+/* ===== Scheme Modal ===== */
+.scheme-modal{width:min(640px,100%)}
+.scheme-modal-heading{display:flex;align-items:center;gap:14px}
+.scheme-modal-icon{
+  width:46px;height:46px;flex:none;border-radius:13px;display:grid;place-items:center;
+  background:#eff6ff;color:#2563eb;font-size:18px
+}
+.scheme-modal-body{padding:22px}
+.scheme-modal-block{margin-bottom:20px}
+.scheme-modal-block:last-child{margin-bottom:0}
+.scheme-modal-block h4{
+  display:flex;align-items:center;gap:8px;font-size:11px;margin-bottom:10px
+}
+.scheme-modal-block h4 i{color:var(--primary)}
+.scheme-modal-block > p{font-size:10.5px;color:var(--muted);line-height:1.7}
+.scheme-modal-meta{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px
+}
+.scheme-modal-meta > div{
+  background:var(--surface-2);border:1px solid var(--border);border-radius:12px;
+  padding:12px;text-align:center
+}
+.scheme-modal-meta span{display:block;font-size:8px;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.scheme-modal-meta strong{font-size:10.5px}
+.document-list{list-style:none}
+.document-list li{
+  display:flex;align-items:center;gap:10px;padding:9px 0;
+  border-bottom:1px dashed var(--border);font-size:10.5px
+}
+.document-list li:last-child{border-bottom:0}
+.document-list li i{color:var(--success);font-size:11px}
+.priority-note{font-size:9px;color:var(--muted);margin-bottom:12px}
+.priority-table{display:flex;flex-direction:column;gap:8px}
+.priority-row{
+  display:flex;align-items:center;gap:12px;padding:10px 12px;
+  border:1px solid var(--border);border-radius:12px;background:var(--surface-2)
+}
+.priority-rank{
+  width:24px;height:24px;flex:none;border-radius:50%;display:grid;place-items:center;
+  font-size:9px;font-weight:800;background:var(--surface);border:1px solid var(--border);color:var(--muted)
+}
+.priority-category{flex:1;min-width:0}
+.priority-category strong{display:block;font-size:10.5px}
+.priority-category small{display:block;font-size:8.5px;color:var(--muted);margin-top:2px;line-height:1.5}
+.priority-level{
+  font-size:8px;font-weight:700;padding:5px 9px;border-radius:99px;white-space:nowrap
+}
+.priority-level.highest{background:#fef2f2;color:#dc2626}
+.priority-level.high{background:#fffbeb;color:#b45309}
+.priority-level.medium{background:#eff6ff;color:#2563eb}
+.priority-level.standard{background:#ecfdf5;color:#059669}
+.priority-disclaimer{
+  display:flex;align-items:flex-start;gap:8px;margin-top:14px;padding:11px 12px;
+  background:#fffbeb;border:1px solid rgba(245,158,11,.3);border-radius:11px;
+  font-size:9px;color:#92400e;line-height:1.6
+}
+.priority-disclaimer i{margin-top:1px}
+body.dark-mode .priority-disclaimer{background:rgba(245,158,11,.08);color:#fbbf24;border-color:rgba(245,158,11,.25)}
+
+/* ===== Scheme Amount / Loan Interest ===== */
+.amount-table{display:flex;flex-direction:column;gap:8px}
+.amount-row{
+  display:flex;align-items:center;gap:12px;padding:10px 12px;
+  border:1px solid var(--border);border-radius:12px;background:var(--surface-2)
+}
+.amount-icon{
+  width:32px;height:32px;flex:none;border-radius:10px;display:grid;place-items:center;
+  background:#ecfdf5;color:#059669;font-size:12px
+}
+.amount-icon.loan{background:#eff6ff;color:#2563eb}
+.amount-category{flex:1;min-width:0}
+.amount-category strong{display:block;font-size:10.5px}
+.amount-category small{display:block;font-size:8.5px;color:var(--muted);margin-top:2px;line-height:1.5}
+.amount-value{
+  font-size:11px;font-weight:800;color:var(--success);white-space:nowrap;text-align:right
+}
+.amount-value.loan{color:var(--primary)}
+.scheme-modal-block.no-data{display:none}
+
+/* ===== Scheme Modal Footer / Apply ===== */
+.scheme-modal-footer{
+  padding:18px 22px 22px;border-top:1px solid var(--border)
+}
+.apply-btn{width:100%;text-decoration:none}
+
+/* ===== Complaints ===== */
+.complaint-summary{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:var(--surface);border:1px solid var(--border);border-radius:18px;
+  box-shadow:var(--shadow);overflow:hidden
+}
+.complaint-stat{padding:25px;text-align:center;border-right:1px solid var(--border)}
+.complaint-stat:last-child{border-right:0}
+.complaint-number{display:block;font-size:27px;font-weight:800;color:var(--primary)}
+.complaint-number.pending{color:#f59e0b}
+.complaint-number.progress{color:#2563eb}
+.complaint-number.resolved{color:#10b981}
+.complaint-stat > span:last-child{font-size:10px;color:var(--muted)}
+
+/* ===== Complaints — subsections ===== */
+.complaint-subsection{margin-top:28px}
+.subsection-title{
+  display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;
+  margin-bottom:16px;color:var(--text)
+}
+.subsection-title i{color:var(--primary);font-size:12px}
+
+/* ===== Top 3 Most Complained Topics ===== */
+.top-complaints-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.top-complaint-card{
+  position:relative;display:flex;gap:13px;padding:20px;border-radius:18px;
+  background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);
+  transition:var(--transition)
+}
+.top-complaint-card:hover{transform:translateY(-7px);box-shadow:var(--shadow-hover)}
+.top-complaint-card-clickable{cursor:pointer}
+.top-complaint-card-clickable:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.top-complaint-rank{
+  position:absolute;top:14px;right:16px;font-size:10px;font-weight:800;
+  color:var(--muted)
+}
+.top-complaint-icon{
+  width:40px;height:40px;min-width:40px;border-radius:12px;display:grid;
+  place-items:center;background:#fff1f0;color:#ef4444
+}
+.top-complaint-content{flex:1}
+.top-complaint-content h3{font-size:12px;margin-bottom:4px}
+.top-complaint-content p{font-size:9px;color:var(--muted);margin-bottom:10px}
+.top-complaint-content p strong{color:var(--text);font-size:12px}
+.top-complaint-bar{
+  height:6px;border-radius:4px;background:var(--surface-2);overflow:hidden;margin-bottom:6px
+}
+.top-complaint-bar-fill{height:100%;border-radius:4px;background:#ef4444}
+.top-complaint-percent{font-size:8px;color:var(--muted)}
+
+/* ===== Complaints submitted by citizens — header row ===== */
+.complaint-list-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin-bottom:16px
+}
+.complaint-list-head .subsection-title{margin-bottom:0}
+
+/* ===== Complaint detail modal ===== */
+.complaint-detail-body{padding:22px}
+.complaint-detail-photo{
+  display:block;width:100%;max-height:280px;object-fit:cover;
+  border-radius:14px;border:1px solid var(--border);margin-bottom:16px;
+  cursor:zoom-in
+}
+.complaint-detail-desc{font-size:11.5px;color:var(--text);line-height:1.7;margin-bottom:18px}
+.complaint-detail-meta strong{word-break:break-word}
+
+.hidden{display:none !important}
+
+/* ===== Complaints by Category — summary cards ===== */
+.category-summary-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px
+}
+
+.category-summary-card{
+  display:flex;gap:14px;padding:20px;border-radius:16px;
+  background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);
+  transition:var(--transition)
+}
+.category-summary-card-clickable{cursor:pointer}
+.category-summary-card-clickable:hover{box-shadow:var(--shadow-hover);transform:translateY(-4px)}
+.category-summary-card-clickable:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+
+.category-summary-icon{
+  width:42px;height:42px;min-width:42px;border-radius:12px;display:grid;
+  place-items:center;background:#eff6ff;color:#2563eb;font-size:15px
+}
+
+.category-summary-body{flex:1;min-width:0}
+.category-summary-body h4{font-size:11.5px;margin-bottom:6px}
+
+.category-summary-count{font-size:20px;font-weight:800;color:var(--primary);margin-bottom:8px}
+.category-summary-count span{font-size:9px;font-weight:600;color:var(--muted);margin-left:5px}
+
+.category-summary-percent-bar{
+  height:6px;border-radius:4px;background:var(--surface-2);overflow:hidden;margin-bottom:6px
+}
+.category-summary-percent-fill{height:100%;border-radius:4px;background:var(--primary)}
+.category-summary-percent-label{font-size:8px;color:var(--muted);display:block;margin-bottom:12px}
+
+.category-summary-gender{
+  display:flex;flex-wrap:wrap;gap:8px 14px;padding-top:10px;border-top:1px solid var(--border)
+}
+.category-summary-gender span{
+  font-size:8.5px;color:var(--muted);display:flex;align-items:center;gap:5px;font-weight:600
+}
+.category-summary-gender span i{color:var(--primary);font-size:9px}
+
+.category-count-empty{font-size:9px;color:var(--muted);margin-top:2px}
+
+@media (max-width: 860px){
+  .category-summary-grid{grid-template-columns:1fr}
+}
+
+/* ===== Complaints list (Recent Complaints + admin's full list) ===== */
+.complaint-list{display:flex;flex-direction:column;gap:12px}
+.complaint-item{
+  display:flex;gap:13px;padding:17px 20px;border-radius:16px;
+  background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);
+  transition:var(--transition)
+}
+.complaint-item:hover{box-shadow:var(--shadow-hover)}
+.complaint-item-clickable{cursor:pointer}
+.complaint-item-clickable:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.complaint-item-icon{
+  width:36px;height:36px;min-width:36px;border-radius:10px;display:grid;
+  place-items:center;background:#eff6ff;color:#2563eb
+}
+.complaint-item-content{flex:1;min-width:0}
+.complaint-item-top{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px
+}
+.complaint-item-top strong{font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+.complaint-item-content > p{font-size:9.5px;color:var(--muted);line-height:1.6;margin-bottom:10px}
+.complaint-item-meta{display:flex;gap:16px;margin-bottom:12px}
+.complaint-item-meta span{font-size:8.5px;color:var(--muted);display:flex;align-items:center;gap:5px}
+.complaint-item-actions{display:flex;flex-wrap:wrap;gap:10px}
+.complaint-item-actions button{font-size:10px;padding:9px 13px}
+.complaint-badge{
+  font-size:8px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap
+}
+.complaint-badge.pending{background:#fef3c7;color:#b45309}
+.complaint-badge.progress{background:#dbeafe;color:#1d4ed8}
+.complaint-badge.resolved{background:#d1fae5;color:#047857}
+/* ===== Category Complaints (single-line list — click a Top 3 card) ===== */
+.category-complaints-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin-bottom:16px
+}
+.category-complaints-head .subsection-title{margin-bottom:0}
+
+.category-complaints-grid{display:flex;flex-direction:column;gap:10px}
+
+.category-complaint-row{
+  display:flex;align-items:center;gap:20px;padding:14px 18px;border-radius:14px;
+  background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);
+  transition:var(--transition);cursor:pointer
+}
+.category-complaint-row:hover{box-shadow:var(--shadow-hover);border-color:var(--primary)}
+.category-complaint-row:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+
+.category-complaint-avatar{
+  width:34px;height:34px;min-width:34px;border-radius:50%;display:grid;
+  place-items:center;background:#eff6ff;color:#2563eb;font-size:12px;font-weight:800
+}
+
+.category-complaint-row-field{
+  display:flex;flex-direction:column;gap:3px;min-width:0
+}
+.category-complaint-row-field.name{flex:1.2;min-width:110px}
+.category-complaint-row-field.date{flex:1;min-width:100px}
+.category-complaint-row-field.time{flex:.7;min-width:80px}
+.category-complaint-row-field.location{flex:1.4;min-width:140px}
+
+.category-complaint-row-field .field-label{
+  font-size:7.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)
+}
+.category-complaint-row-field strong{
+  font-size:9.5px;display:flex;align-items:center;gap:6px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.category-complaint-row-field strong i{color:var(--primary);font-size:9px}
+
+.category-complaint-row .complaint-badge{white-space:nowrap}
+
+.category-complaint-row-actions{
+  display:flex;align-items:center;gap:10px;margin-left:auto;padding-left:10px
+}
+.category-complaint-row-actions button{font-size:10px;padding:8px 13px;white-space:nowrap}
+.category-complaint-noimg{
+  font-size:8.5px;color:var(--muted);font-style:italic;
+  display:flex;align-items:center;gap:6px;white-space:nowrap
+}
+
+@media (max-width: 1100px){
+  .category-complaint-row{flex-wrap:wrap;row-gap:10px}
+  .category-complaint-row-actions{margin-left:0;padding-left:0;width:100%;justify-content:flex-end}
+}
+@media (max-width: 860px){
+  .category-complaints-head{flex-direction:column;align-items:flex-start;gap:10px}
+}
+
+.complaint-empty{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;padding:50px 20px;color:var(--muted);text-align:center
+}
+.complaint-empty i{font-size:26px;color:var(--border)}
+.complaint-empty p{font-size:10.5px}
+
+/* ===== Complaint photo attachment (Submit Complaint form) ===== */
+.optional-tag{font-weight:500;color:var(--muted)}
+.photo-upload{
+  position:relative;border:1px dashed var(--border);border-radius:14px;
+  background:var(--surface-2);cursor:pointer;overflow:hidden;transition:var(--transition)
+}
+.photo-upload:hover{border-color:rgba(37,99,235,.5)}
+.photo-upload-empty{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;padding:26px 16px;text-align:center
+}
+.photo-upload-empty i{font-size:20px;color:var(--primary)}
+.photo-upload-empty p{font-size:10.5px;color:var(--text)}
+.photo-upload-empty span{font-size:9px;color:var(--muted)}
+.photo-upload-preview{position:relative;line-height:0}
+.photo-upload-preview img{width:100%;max-height:220px;object-fit:cover}
+.photo-remove-btn{
+  position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:9px;
+  display:grid;place-items:center;background:rgba(2,6,23,.6);color:#fff;backdrop-filter:blur(3px)
+}
+.photo-remove-btn:hover{background:var(--danger)}
+.form-hint{display:block;font-size:9px;color:var(--muted);line-height:1.6;margin-top:7px}
+
+/* ===== Complaint photo lightbox ===== */
+.lightbox-overlay{background:rgba(2,6,23,.86)}
+.lightbox-box{position:relative;width:min(720px,92vw)}
+.lightbox-box img{width:100%;max-height:82vh;object-fit:contain;border-radius:14px;display:block;background:#000}
+.lightbox-close{position:absolute;top:-14px;right:-14px;box-shadow:var(--shadow-hover)}
+
+/* ===== Reports ===== */
+.report-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.report-card{
+  padding:20px;display:flex;align-items:center;gap:15px;
+  text-align:left;border-radius:17px;color:var(--text);transition:var(--transition)
+}
+.report-card > i:first-child{font-size:25px;color:var(--primary)}
+.report-card div{flex:1}
+.report-card h3{font-size:12px}
+.report-card p{font-size:9px;color:var(--muted);margin-top:4px}
+.report-card > i:last-child{color:#94a3b8;font-size:11px}
+.report-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-hover);border-color:rgba(37,99,235,.2)}
+.dashboard-footer{
+  display:flex;justify-content:space-between;gap:20px;
+  margin-top:40px;padding:25px 5px 5px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:9px
+}
+.dashboard-footer strong{color:var(--text);font-size:11px;margin-right:7px}
+
+/* ===== Notification Panel ===== */
+.notification-panel{
+  position:fixed;z-index:1200;right:22px;top:88px;width:360px;
+  max-width:calc(100vw - 30px);background:var(--surface);
+  border:1px solid var(--border);border-radius:18px;
+  box-shadow:0 25px 80px rgba(15,23,42,.18);
+  opacity:0;visibility:hidden;transform:translateY(-12px) scale(.98);
+  transition:var(--transition)
+}
+.notification-panel.show{opacity:1;visibility:visible;transform:none}
+.notification-header{display:flex;justify-content:space-between;padding:17px;border-bottom:1px solid var(--border)}
+.notification-header h3{font-size:14px}
+.notification-header span{font-size:9px;color:var(--muted)}
+.notification-header button{background:transparent;color:var(--muted)}
+.notification-item{display:flex;gap:10px;padding:15px 17px;border-bottom:1px solid var(--border)}
+.notification-item.unread{background:rgba(37,99,235,.035)}
+.notification-item-icon{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:#eff6ff;color:#2563eb;flex:none}
+.notification-item strong{font-size:10px}
+.notification-item p{font-size:9px;color:var(--muted);margin:3px 0}
+.notification-item small{font-size:8px;color:#94a3b8}
+.clear-notifications{width:calc(100% - 24px);margin:12px;padding:10px;border-radius:10px;background:var(--surface-2);color:var(--primary);font-size:10px;font-weight:700}
+
+/* ===== Modal ===== */
+.modal-overlay{
+  position:fixed;inset:0;z-index:1500;display:grid;place-items:center;padding:20px;
+  background:rgba(2,6,23,.58);backdrop-filter:blur(9px);
+  opacity:0;visibility:hidden;transition:var(--transition)
+}
+.modal-overlay.show{opacity:1;visibility:visible}
+.modal{
+  width:min(560px,100%);max-height:90vh;overflow:auto;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:22px;box-shadow:0 35px 100px rgba(0,0,0,.28);
+  transform:translateY(20px) scale(.96);transition:var(--transition)
+}
+.modal-overlay.show .modal{transform:none}
+.modal-header{display:flex;justify-content:space-between;gap:20px;padding:22px;border-bottom:1px solid var(--border)}
+.modal-header h2{font-size:17px}
+.modal-header p{font-size:10px;color:var(--muted);margin-top:4px}
+.modal-close{background:var(--surface-2);color:var(--muted);width:34px;height:34px;border-radius:10px}
+#complaintForm{padding:22px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:10px;font-weight:700;margin-bottom:7px}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;border:1px solid var(--border);outline:0;background:var(--surface-2);
+  color:var(--text);border-radius:11px;padding:11px 12px;font-size:11px;transition:var(--transition)
+}
+.form-group textarea{resize:vertical}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  border-color:rgba(37,99,235,.55);box-shadow:0 0 0 4px rgba(37,99,235,.08)
+}
+.form-actions{display:flex;justify-content:flex-end;gap:9px;padding:0 22px 22px}
+.report-preview{
+  margin:22px;padding:30px;text-align:center;border:1px dashed #cbd5e1;border-radius:15px;
+  background:linear-gradient(145deg,var(--surface-2),var(--surface))
+}
+.report-logo{width:55px;height:55px;margin:0 auto 12px;border-radius:15px;display:grid;place-items:center;color:white;background:linear-gradient(135deg,var(--primary),var(--primary-2))}
+.report-preview h2{font-size:20px}
+.report-preview > p{font-size:10px;color:var(--muted);margin-top:5px}
+.report-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:22px}
+.report-summary-grid div{padding:13px 5px;background:var(--surface);border:1px solid var(--border);border-radius:11px}
+.report-summary-grid strong{display:block;font-size:18px}
+.report-summary-grid span{font-size:8px;color:var(--muted)}
+
+
+/* Project edit modal: keep status controls in their own clear section. */
+#editProjectForm{padding:22px}
+.project-status-panel,.project-assignment-panel{
+  margin:4px 0 20px;padding:16px;border:1px solid var(--border);
+  border-radius:15px;background:var(--surface-2)
+}
+.project-form-section-heading{display:flex;align-items:center;gap:11px;margin-bottom:16px}
+.project-form-section-icon{display:grid;place-items:center;width:36px;height:36px;flex:none;
+  border-radius:11px;background:rgba(37,99,235,.10);color:var(--primary);font-size:14px}
+.project-form-section-heading h3{font-size:12px;font-weight:800;margin:0}
+.project-form-section-heading p{font-size:9px;color:var(--muted);margin:4px 0 0}
+.project-status-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.project-status-fields .form-group{margin-bottom:0}
+.project-assignment-panel .form-help{font-size:9px;line-height:1.6;color:var(--muted);margin:0 0 2px}
+#editProjectForm > .auth-submit{width:100%;margin-top:2px}
+@media(max-width:520px){
+  .project-status-panel,.project-assignment-panel{padding:12px}
+  .project-status-fields{grid-template-columns:1fr;gap:0}
+}
+
+/* ===== Toast ===== */
+.toast{
+  position:fixed;z-index:2000;right:22px;bottom:22px;
+  width:min(380px,calc(100vw - 30px));
+  display:flex;align-items:center;gap:11px;padding:13px;
+  background:var(--surface);border:1px solid var(--border);border-radius:15px;
+  box-shadow:0 20px 60px rgba(15,23,42,.18);
+  transform:translateX(120%);transition:var(--transition)
+}
+.toast.show{transform:none}
+.toast-icon{width:37px;height:37px;display:grid;place-items:center;border-radius:11px;background:#ecfdf5;color:#10b981}
+.toast-content{flex:1}
+.toast-content strong{font-size:11px}
+.toast-content p{font-size:9px;color:var(--muted);margin-top:2px}
+.toast > button{background:transparent;color:#94a3b8}
+
+/* ===== Responsive ===== */
+@media(max-width:1200px){
+  .stats-grid,.service-grid,.indicator-grid,.scheme-grid,.top-complaints-grid{grid-template-columns:repeat(2,1fr)}
+  .dashboard-grid{grid-template-columns:1fr}
+  .welcome-illustration{opacity:.75}
+}
+@media(max-width:900px){
+  :root{--sidebar-width:270px}
+  .sidebar{transform:translateX(-100%);box-shadow:20px 0 70px rgba(2,6,23,.25)}
+  .sidebar.open{transform:none}
+  .sidebar-close,.menu-toggle{display:grid;place-items:center}
+  .main-content{margin-left:0}
+  .menu-toggle{display:grid}
+  .search-box{width:220px}
+  .admin-profile .profile-info,.admin-profile > i{display:none}
+  .sidebar-overlay{
+    position:fixed;inset:0;z-index:950;background:rgba(2,6,23,.45);
+    opacity:0;visibility:hidden;transition:var(--transition)
+  }
+  .sidebar-overlay.show{opacity:1;visibility:visible}
+}
+@media(max-width:680px){
+  .top-header{height:70px;padding:0 14px}
+  .page-title h1{font-size:15px}
+  .page-title p{display:none}
+  .search-box{display:none}
+  .header-right{gap:7px}
+  .welcome-banner{padding:26px 22px;min-height:300px}
+  .welcome-text h2{font-size:24px}
+  .welcome-illustration{position:absolute;right:-35px;bottom:-10px;opacity:.35}
+  .section-heading{align-items:flex-start;flex-direction:column;gap:10px}
+  .stats-grid,.service-grid,.indicator-grid,.scheme-grid,.report-grid,.top-complaints-grid{grid-template-columns:1fr}
+  .page-section{padding:18px 13px 35px}
+  .score-content{flex-direction:column;justify-content:center;padding:15px 0}
+  .score-details{width:100%}
+  .complaint-summary{grid-template-columns:repeat(2,1fr)}
+  .complaint-stat:nth-child(2){border-right:0}
+  .complaint-stat{border-bottom:1px solid var(--border)}
+  .report-summary-grid{grid-template-columns:repeat(2,1fr)}
+  .dashboard-footer{flex-direction:column;text-align:center}
+  .project-item{align-items:flex-start;flex-wrap:wrap}
+  .project-status{margin-left:55px;margin-top:-7px}
+  .scheme-modal-meta{grid-template-columns:1fr}
+  .scheme-modal-heading{align-items:flex-start}
+}
+@media(max-width:420px){
+  .header-icon{width:36px;height:36px}
+  .welcome-banner{border-radius:19px}
+  .stat-card,.dashboard-card,.service-card,.indicator-card,.scheme-card{border-radius:15px}
+}
+
+/* ===== Reduced motion accessibility ===== */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
+
+/* ===== Print ===== */
+@media print{
+  .sidebar,.top-header,.notification-panel,.toast,.modal-overlay{display:none!important}
+  .main-content{margin:0}
+  .page-section{padding:0}
+  body{background:white}
+  .welcome-banner,.stat-card,.dashboard-card,.service-card,.indicator-card,.scheme-card{box-shadow:none}
+}
+
+/* ===== Admin edit controls — Development & Projects =====
+   Edit/delete buttons only ever exist in the DOM when
+   script.js has confirmed the logged-in session's role is
+   "admin" (see renderDevelopmentIndicators / renderProjects),
+   so no extra CSS-only hiding is needed here — these rules
+   just style the buttons once they're rendered. */
+.indicator-card{position:relative}
+.indicator-edit-btn{
+  position:absolute; top:16px; right:16px;
+  width:30px;height:30px;border-radius:9px;
+  display:grid;place-items:center;font-size:11px;
+  background:var(--surface-2);color:var(--muted);
+  border:1px solid var(--border);transition:var(--transition)
+}
+.indicator-edit-btn:hover{color:var(--primary);background:var(--surface);transform:translateY(-2px)}
+
+.project-item-actions{display:flex;align-items:center;gap:6px;flex:none;margin-left:8px}
+.project-edit-btn,.project-delete-btn{
+  width:30px;height:30px;border-radius:9px;
+  display:grid;place-items:center;font-size:11px;
+  background:var(--surface-2);color:var(--muted);
+  border:1px solid var(--border);transition:var(--transition)
+}
+.project-edit-btn:hover{color:var(--primary);background:var(--surface)}
+.project-delete-btn:hover{color:#ef4444;background:#fef2f2}
+
+/* ===== Profile / Password editing (Settings → Account) ===== */
+.account-header-actions{display:flex;gap:8px;flex-wrap:wrap}
+.secondary-btn.small{padding:10px 13px}
+
+.pw-input-wrap{position:relative}
+.pw-input-wrap input{padding-right:40px}
+.pw-input-wrap .toggle-eye{
+  position:absolute; right:4px; top:50%; transform:translateY(-50%);
+  background:transparent;color:var(--muted);padding:7px;border-radius:8px;
+  transition:var(--transition)
+}
+.pw-input-wrap .toggle-eye:hover{color:var(--primary)}
+
+/* ===== Contractor assignment register ===== */
+.contractor-table-wrap{width:100%;overflow-x:auto;margin-top:8px}
+.contractor-table{width:100%;border-collapse:collapse;min-width:720px;text-align:left}
+.contractor-table th,.contractor-table td{padding:13px 14px;border-bottom:1px solid var(--border);vertical-align:top;font-size:11px}
+.contractor-table th{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:700;background:var(--surface-2)}
+.contractor-table td strong{display:block;color:var(--text);font-size:11px;font-weight:700}
+.contractor-table td small{display:block;color:var(--muted);font-size:9px;line-height:1.5;margin-top:4px;overflow-wrap:anywhere;max-width:260px}
+.contractor-table tbody tr:last-child td{border-bottom:0}
+.contractor-empty{color:var(--muted);text-align:center;padding:24px!important}
+.contractor-register-note{font-size:10px;color:var(--muted);margin:12px 0 0;line-height:1.6}
+.contractor-status{display:inline-block;white-space:nowrap;border-radius:99px;padding:5px 9px;font-size:9px;font-weight:700;background:#f3f4f6;color:#4b5563}
+.contractor-status.ongoing{background:#eff6ff;color:#2563eb}
+.contractor-status.completed{background:#ecfdf5;color:#059669}
+.contractor-status.locked{background:#fef2f2;color:#b91c1c}
+.contractor-status.planned{background:#fffbeb;color:#b45309}
+body.dark-mode .contractor-table th{background:var(--surface-2)}
+body.dark-mode .contractor-status{background:#263244;color:#cbd5e1}
+body.dark-mode .contractor-status.ongoing{background:#172554;color:#93c5fd}
+body.dark-mode .contractor-status.completed{background:#052e16;color:#86efac}
+body.dark-mode .contractor-status.locked{background:#450a0a;color:#fca5a5}
+body.dark-mode .contractor-status.planned{background:#451a03;color:#fcd34d}
+
+/* Contractor directory and Sarpanch registration controls */
+.contractor-subheading{font-size:13px;font-weight:800;color:var(--text);margin:18px 0 8px}
+.contractor-directory-wrap{margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}
+#addContractorForm{padding:22px}
+#addContractorForm .auth-submit{width:100%;margin-top:4px}
+
+
+/* Past contractor work history in the construction/projects section */
+.past-work-form{margin:16px 0 20px;padding:18px;border:1px solid var(--border);border-radius:14px;background:var(--surface-2)}
+.past-work-form[hidden]{display:none!important}
+.past-work-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px}
+.past-work-form .form-group{margin:0;min-width:0}
+.past-work-form label{display:block;margin-bottom:6px;font-size:11px;font-weight:700;color:var(--text)}
+.past-work-form input,.past-work-form select,.past-work-form textarea{width:100%;min-width:0}
+.past-work-details{grid-column:1/-1}
+.past-work-form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.past-work-table{min-width:1050px}
+@media(max-width:640px){.past-work-form{padding:12px}.past-work-form-grid{grid-template-columns:1fr}.past-work-details{grid-column:auto}}
+
+/* Past contractor history visibility controls */
+.past-work-header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#pastWorkHistoryPanel[hidden]{display:none!important}
+@media(max-width:520px){.past-work-header-actions{width:100%}.past-work-header-actions button{flex:1}}
+
+/* ===== Development Progress & Villager Comments ===== */
+.dev-role-notice-banner{
+  display:flex;align-items:center;gap:12px;padding:12px 16px;
+  background:rgba(37,99,235,.07);border:1px solid rgba(37,99,235,.18);
+  border-radius:14px;margin-bottom:16px;font-size:11px;line-height:1.6
+}
+.dev-role-notice-banner i{font-size:16px;color:var(--primary);flex:none}
+.dev-role-notice-banner strong{color:var(--text)}
+
+.sector-filter-chip{
+  padding:6px 12px;border-radius:99px;font-size:10px;font-weight:600;
+  border:1px solid var(--border);background:var(--surface-2);color:var(--muted);
+  cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:5px
+}
+.sector-filter-chip:hover{border-color:var(--primary);color:var(--primary)}
+.sector-filter-chip.active{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 4px 12px rgba(37,99,235,.25)}
+
+.dev-comment-card{
+  padding:16px 18px;border:1px solid var(--border);border-radius:16px;
+  background:var(--surface-2);transition:var(--transition)
+}
+.dev-comment-card:hover{box-shadow:var(--shadow-hover);border-color:rgba(37,99,235,.2)}
+.dev-comment-top{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px
+}
+.dev-comment-author{display:flex;align-items:center;gap:10px}
+.dev-comment-avatar{
+  width:36px;height:36px;border-radius:50%;display:grid;place-items:center;
+  background:#eff6ff;color:var(--primary);font-weight:700;font-size:13px;flex:none
+}
+.dev-comment-meta strong{font-size:12px;display:flex;align-items:center;gap:7px}
+.dev-comment-meta small{font-size:9.5px;color:var(--muted)}
+.dev-pill{display:inline-block;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:700}
+.dev-pill.villager{background:#eff6ff;color:#2563eb}
+.dev-pill.sarpanch{background:#ecfdf5;color:#059669}
+.dev-pill.suggestion{background:#f0fdf4;color:#16a34a;border:1px solid rgba(22,163,74,.2)}
+.dev-pill.appreciation{background:#fdf4ff;color:#a855f7;border:1px solid rgba(168,85,247,.2)}
+.dev-pill.issue{background:#fffbeb;color:#d97706;border:1px solid rgba(217,119,6,.2)}
+.dev-comment-sector-badge{
+  font-size:9.5px;font-weight:600;padding:3px 9px;border-radius:8px;background:var(--surface);
+  border:1px solid var(--border);color:var(--text);display:inline-flex;align-items:center;gap:4px
+}
+.dev-comment-text{
+  font-size:11.5px;line-height:1.65;color:var(--text);margin:6px 0 10px
+}
+.dev-sarpanch-reply{
+  margin-top:12px;padding:12px 14px;border-radius:12px;
+  background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.2)
+}
+.dev-sarpanch-reply-header{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:6px
+}
+.dev-sarpanch-reply-header strong{
+  font-size:10.5px;color:#047857;display:flex;align-items:center;gap:6px
+}
+.dev-sarpanch-reply-header small{font-size:9px;color:var(--muted)}
+.dev-sarpanch-reply p{
+  margin:0;font-size:11px;line-height:1.6;color:var(--text)
+}
+.dev-comment-actions{
+  display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-top:8px
+}
+.dev-comment-actions button{font-size:10px}
+

@@ -1,0 +1,164 @@
+/* =========================================================
+   GRAMVIKAS — login.css
+   Styles for login.html (villager + admin auth)
+   ========================================================= */
+
+.auth-body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.auth-shell{
+  width:100%;
+  max-width:1100px;
+  min-height:640px;
+  margin:24px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-hover);
+  overflow:hidden;
+}
+
+/* ===== Left branding panel ===== */
+.auth-brand{
+  position:relative;
+  padding:48px 42px;
+  color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  display:flex;
+  flex-direction:column;
+  gap:36px;
+  overflow:hidden;
+}
+.auth-brand .logo-text h2{color:#fff}
+.auth-brand .logo-text h2 span{color:#c7d2fe}
+.auth-brand .logo-text small{color:rgba(255,255,255,.75)}
+.auth-brand .logo-icon{background:rgba(255,255,255,.18)}
+
+.auth-brand-copy h1{font-size:30px;font-weight:800;line-height:1.25;margin-bottom:12px}
+.auth-brand-copy p{font-size:13px;color:rgba(255,255,255,.85);line-height:1.7;max-width:340px}
+
+.auth-brand-points{list-style:none;display:flex;flex-direction:column;gap:14px;font-size:12.5px}
+.auth-brand-points li{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.92)}
+.auth-brand-points i{color:#a7f3d0}
+
+.auth-brand .floating-icon{position:absolute;opacity:.16;font-size:60px}
+.auth-brand .icon-one{top:8%;right:10%}
+.auth-brand .icon-two{bottom:14%;right:20%;font-size:44px}
+.auth-brand .icon-three{bottom:6%;left:8%;font-size:50px}
+
+/* ===== Right auth panel ===== */
+.auth-panel{
+  position:relative;
+  padding:48px 46px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.auth-theme-toggle{position:absolute;top:20px;right:20px}
+
+.auth-card{width:100%;max-width:380px}
+
+/* ===== Role tabs ===== */
+.role-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:5px;
+  margin-bottom:26px;
+}
+.role-tab{
+  background:transparent;
+  padding:11px 10px;
+  border-radius:10px;
+  font-size:12.5px;
+  font-weight:700;
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  transition:var(--transition);
+}
+.role-tab.active{
+  background:var(--surface);
+  color:var(--primary);
+  box-shadow:var(--shadow);
+}
+
+/* ===== Views ===== */
+.auth-view-head{margin-bottom:22px}
+.auth-view-head h2{font-size:20px;font-weight:800;margin-bottom:5px}
+.auth-view-head p{font-size:12px;color:var(--muted)}
+
+.auth-view form .form-group{margin-bottom:16px}
+
+.input-icon{
+  position:relative;
+  display:flex;
+  align-items:center;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--surface-2);
+  padding:0 14px;
+}
+.input-icon:focus-within{border-color:var(--primary)}
+.input-icon > i:first-child{color:var(--muted);font-size:13px}
+.input-icon input,
+.input-icon select{
+  flex:1;
+  border:0;
+  outline:0;
+  background:transparent;
+  padding:12px 10px;
+  font-size:13px;
+  color:var(--text);
+  width:100%;
+}
+.toggle-eye{background:transparent;color:var(--muted);padding:6px}
+.toggle-eye:hover{color:var(--primary)}
+
+.auth-submit{width:100%;justify-content:center;margin-top:6px}
+
+.role-select-buttons{display:flex;flex-direction:column;gap:12px;margin-bottom:6px}
+.role-select-buttons .auth-submit{margin-top:0}
+
+.auth-switch{text-align:center;font-size:12px;color:var(--muted);margin-top:18px}
+.auth-switch a{color:var(--primary);font-weight:700}
+
+.field-error{color:var(--danger);font-size:10.5px;margin-top:5px;display:none}
+.form-group.invalid .input-icon{border-color:var(--danger)}
+.form-group.invalid .field-error{display:block}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* ===== OTP demo box (clearly marked as a stand-in for real email delivery) ===== */
+.otp-demo-box{
+  background:var(--surface-2);
+  border:1px dashed var(--warning);
+  border-radius:12px;
+  padding:14px;
+  font-size:11.5px;
+  color:var(--muted);
+  margin-bottom:18px;
+  line-height:1.6;
+}
+.otp-demo-box strong{color:var(--text);letter-spacing:2px;font-size:16px}
+
+#otpInput{letter-spacing:6px;font-weight:700;text-align:center}
+
+@media (max-width: 860px){
+  .auth-brand{display:none}
+  .auth-shell{grid-template-columns:1fr;max-width:460px}
+  .auth-panel{padding:36px 26px}
+  .form-row{grid-template-columns:1fr}
+}

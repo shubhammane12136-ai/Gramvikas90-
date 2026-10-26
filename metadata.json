@@ -1,0 +1,6 @@
+{
+  "name": "GramVikas - Village Development & Grievance Portal",
+  "description": "GramVikas rural governance platform featuring dedicated Sarpanch grievance review, villager email-password login, status tracking for Pending/Approved/Cancelled complaints, and direct Sarpanch feedback.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

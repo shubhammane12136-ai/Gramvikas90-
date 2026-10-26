@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GramVikas - Village Development Dashboard</title>
+    <meta name="description" content="GramVikas Village Development Dashboard - Track, manage, and monitor rural development progress, public services, infrastructure, and citizen complaints." />
+    <meta property="og:title" content="GramVikas - Village Development Dashboard" />
+    <meta property="og:description" content="GramVikas Village Development Dashboard - Track, manage, and monitor rural development progress, public services, infrastructure, and citizen complaints." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Pro animations & button effects -->
+    <link rel="stylesheet" href="pro-effects.css">
+
+    <!-- Auth guard: redirect to login.html immediately if no active session -->
+    <script>
+        if (!sessionStorage.getItem("gramvikas-session")) {
+            window.location.replace("login.html");
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- ================================
+         MOBILE OVERLAY
+    ================================= -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+    <!-- ================================
+         SIDEBAR
+    ================================= -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-header">
+
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-house-chimney"></i>
+                </div>
+
+                <div class="logo-text">
+                    <h2>Gram<span>Vikas</span></h2>
+                    <small>Village Development</small>
+                </div>
+            </div>
+
+            <button class="sidebar-close" id="sidebarClose">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <!-- Village Selector -->
+        <div class="village-selector">
+
+            <div class="village-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+
+            <div>
+                <small>Current Village</small>
+                <strong id="selectedVillage">Adarsh Gram</strong>
+            </div>
+
+            <i class="fa-solid fa-chevron-down"></i>
+
+        </div>
+
+
+        <!-- Navigation -->
+        <nav class="sidebar-nav">
+
+            <p class="nav-title">MAIN MENU</p>
+
+            <a href="#dashboard" class="nav-link active">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Village Profile</span>
+            </a>
+
+            <a href="#development" class="nav-link">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Development</span>
+            </a>
+
+            <a href="#projects" class="nav-link">
+                <i class="fa-solid fa-building"></i>
+                <span>Projects</span>
+            </a>
+
+            <a href="#contractors" class="nav-link">
+                <i class="fa-solid fa-helmet-safety"></i>
+                <span>Contractor</span>
+            </a>
+
+
+            <a href="#complaints" class="nav-link">
+                <i class="fa-solid fa-comments"></i>
+                <span>Complaints</span>
+                <span class="notification-badge">3</span>
+            </a>
+
+            <a href="#complaintsDevelopment" class="nav-link">
+                <i class="fa-solid fa-list-check"></i>
+                <span>Complaints Development</span>
+            </a>
+
+            <p class="nav-title">SYSTEM</p>
+
+            <a href="#reports" class="nav-link">
+                <i class="fa-solid fa-file-lines"></i>
+                <span>Reports</span>
+            </a>
+
+            <a href="#settings" class="nav-link">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+
+        <!-- Sidebar Bottom -->
+        <div class="sidebar-footer">
+
+            <div class="help-box">
+                <div class="help-icon">
+                    <i class="fa-solid fa-circle-question"></i>
+                </div>
+
+                <div>
+                    <strong>Need Help?</strong>
+                    <small>Contact administration</small>
+                </div>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================================
+         MAIN CONTENT
+    ================================= -->
+    <main class="main-content">
+
+
+        <!-- ================================
+             TOP HEADER
+        ================================= -->
+        <header class="top-header">
+
+            <div class="header-left">
+
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="page-title">
+                    <h1 id="pageHeading">Village Profile</h1>
+                    <p>
+                        <i class="fa-regular fa-calendar"></i>
+                        <span id="currentDate">Loading date...</span>
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="header-right">
+
+                <!-- Search -->
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        id="globalSearch"
+                        placeholder="Search dashboard..."
+                    >
+
+                    <span class="search-shortcut">Ctrl K</span>
+
+                </div>
+
+
+                <!-- Notification -->
+                <button class="header-icon notification-btn" id="notificationBtn">
+                    <i class="fa-regular fa-bell"></i>
+                    <span></span>
+                </button>
+
+
+                <!-- Theme -->
+                <button class="header-icon" id="themeToggle">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+
+                <!-- Logout -->
+                <button class="header-icon" id="logoutBtn" title="Logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+
+
+                <!-- Profile -->
+                <div class="admin-profile">
+
+                    <div class="profile-avatar">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <div class="profile-info">
+                        <strong id="profileName">Village Admin</strong>
+                        <small id="profileRole">Administrator</small>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-down"></i>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================================
+             DASHBOARD CONTENT
+        ================================= -->
+        <section class="dashboard-content page-section active" id="dashboard" data-page="dashboard">
+
+
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+
+                <div class="welcome-text">
+
+                    <span class="welcome-label">
+                        <i class="fa-solid fa-sparkles"></i>
+                        Welcome back!
+                    </span>
+
+                    <h2>Village Development Dashboard</h2>
+
+                    <p>
+                        Monitor development progress, infrastructure,
+                        public services and welfare schemes in one place.
+                    </p>
+
+                    <button class="primary-btn" id="viewReportBtn">
+                        <i class="fa-solid fa-file-chart-column"></i>
+                        View Development Report
+                    </button>
+
+                </div>
+
+
+                <div class="welcome-illustration">
+
+                    <div class="illustration-circle">
+                        <i class="fa-solid fa-tree-city"></i>
+                    </div>
+
+                    <div class="floating-icon icon-one">
+                        <i class="fa-solid fa-sun"></i>
+                    </div>
+
+                    <div class="floating-icon icon-two">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+
+                    <div class="floating-icon icon-three">
+                        <i class="fa-solid fa-house"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================
+                 STATISTICS CARDS
+            ================================= -->
+            <div class="section-heading">
+
+                <div>
+                    <h2>Village Overview</h2>
+                    <p>Key statistics and development indicators</p>
+                </div>
+
+                <select id="yearFilter" class="filter-select">
+                    <option value="2026">2026</option>
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                </select>
+
+            </div>
+
+
+            <!--
+                Cards below are rendered by renderVillageStats() in
+                script.js from localStorage ("gramvikas-village-stats"),
+                seeded on first run with the values that used to be
+                hardcoded here. The pencil/edit button on each card
+                only exists in the markup when the logged-in session
+                is an admin — see isAdmin in script.js. Villagers see
+                the same cards with no way to edit them (also
+                enforced again in saveVillageStats() itself).
+            -->
+            <div class="stats-grid" id="statsGrid"></div>
+
+
+            <!-- ================================
+                 CHARTS SECTION
+            ================================= -->
+            <div class="dashboard-grid">
+
+
+                <!-- Development Progress -->
+                <div class="dashboard-card development-chart-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h3>Development Progress</h3>
+                            <p>Sector-wise development performance</p>
+                        </div>
+
+                        <select id="chartPeriod" class="small-select">
+                            <option value="year">This Year</option>
+                            <option value="month">This Month</option>
+                            <option value="quarter">This Quarter</option>
+                        </select>
+
+                    </div>
+
+                    <div class="chart-container">
+
+                        <canvas id="developmentChart"></canvas>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Development Score -->
+                <div class="dashboard-card score-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h3>Village Development Score</h3>
+                            <p>Overall performance</p>
+                        </div>
+
+                        <button class="more-btn">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+
+                    </div>
+
+
+                    <div class="score-content">
+
+                        <div class="progress-circle" id="progressCircle">
+
+                            <div class="progress-inner">
+                                <strong>76%</strong>
+                                <span>Excellent</span>
+                            </div>
+
+                        </div>
+
+                        <div class="score-details">
+
+                            <div class="score-item">
+                                <span>
+                                    <i class="fa-solid fa-road"></i>
+                                    Infrastructure
+                                </span>
+                                <strong>81%</strong>
+                            </div>
+
+                            <div class="score-item">
+                                <span>
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                    Education
+                                </span>
+                                <strong>84%</strong>
+                            </div>
+
+                            <div class="score-item">
+                                <span>
+                                    <i class="fa-solid fa-heart-pulse"></i>
+                                    Healthcare
+                                </span>
+                                <strong>72%</strong>
+                            </div>
+
+                            <div class="score-item">
+                                <span>
+                                    <i class="fa-solid fa-droplet"></i>
+                                    Water & Sanitation
+                                </span>
+                                <strong>75%</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+            <section id="development" class="development-section page-section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Development Indicators</h2>
+                        <p>Detailed sector-wise village performance</p>
+                    </div>
+
+                </div>
+
+                <!-- Populated by JS (renderDevelopmentIndicators in script.js).
+                     Edit buttons on each card only render for admins;
+                     villagers get a read-only view. -->
+                <div class="indicator-grid" id="indicatorGrid"></div>
+
+            </section>
+
+
+        <!-- ================================
+             PROJECTS
+        ================================= -->
+        <section id="projects" class="projects-section page-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Development Projects</h2>
+                    <p>All ongoing, planned and completed village projects</p>
+                </div>
+
+            </div>
+
+            <div class="dashboard-grid" style="grid-template-columns:1fr">
+
+                <!-- Recent Projects -->
+                <div class="dashboard-card projects-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h3>Recent Development Projects</h3>
+                            <p>Latest village development activities</p>
+                        </div>
+
+                        <!-- Admin-only: add a new project. Hidden by
+                             default; script.js reveals it only when
+                             the logged-in session's role is "admin". -->
+                        <button class="primary-btn small" id="addProjectBtn" hidden>
+                            <i class="fa-solid fa-plus"></i> Add Project
+                        </button>
+
+                    </div>
+
+
+                    <!-- Populated by JS (renderProjects in script.js).
+                         Edit/delete buttons on each item only render
+                         for admins; villagers get a read-only view. -->
+                    <div class="project-list" id="projectList"></div>
+
+                </div>
+
+            </div>
+
+            <!-- Historical contractor work records belong to the construction/projects section. -->
+            <div class="dashboard-grid" style="grid-template-columns:1fr;margin-top:20px">
+                <div class="dashboard-card projects-card contractor-history-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>Past Contractor Work History</h3>
+                            <p>Work-wise records for road construction, water projects, buildings and other village works</p>
+                        </div>
+                        <div class="past-work-header-actions">
+                            <button class="secondary-btn small" id="togglePastWorkHistoryBtn" type="button" aria-expanded="false" aria-controls="pastWorkHistoryPanel"><i class="fa-solid fa-clock-rotate-left"></i> View Past History</button>
+                            <button class="primary-btn small" id="addPastWorkBtn" type="button" hidden><i class="fa-solid fa-plus"></i> Add Past Work</button>
+                        </div>
+                    </div>
+                    <div id="pastWorkHistoryPanel" hidden>
+                    <form id="pastWorkForm" class="past-work-form" hidden>
+                        <div class="past-work-form-grid">
+                            <div class="form-group"><label for="pastWorkTitle">Work / Project name</label><input id="pastWorkTitle" type="text" maxlength="160" required placeholder="e.g. Main village road construction"></div>
+                            <div class="form-group"><label for="pastWorkCategory">Work type</label><select id="pastWorkCategory" required><option value="road">Road construction</option><option value="water">Water project</option><option value="building">Building / construction</option><option value="drainage">Drainage</option><option value="electricity">Street lighting / electricity</option><option value="other">Other</option></select></div>
+                            <div class="form-group"><label for="pastWorkContractor">Contractor name</label><input id="pastWorkContractor" type="text" maxlength="120" required placeholder="Enter contractor name"></div>
+                            <div class="form-group"><label for="pastWorkLocation">Location / area</label><input id="pastWorkLocation" type="text" maxlength="160" placeholder="e.g. Ward 2, Main road"></div>
+                            <div class="form-group"><label for="pastWorkPeriod">Year / completion date</label><input id="pastWorkPeriod" type="text" maxlength="60" placeholder="e.g. 2024 or March 2024"></div>
+                            <div class="form-group"><label for="pastWorkCost">Contract amount (₹)</label><input id="pastWorkCost" type="number" min="0" step="0.01" placeholder="Optional amount"></div>
+                            <div class="form-group"><label for="pastWorkOutcome">Final status</label><select id="pastWorkOutcome" required><option value="completed">Completed</option><option value="incomplete">Incomplete</option><option value="delayed">Delayed</option><option value="terminated">Terminated</option></select></div>
+                            <div class="form-group past-work-details"><label for="pastWorkDetails">Work details / remarks</label><textarea id="pastWorkDetails" rows="2" maxlength="1000" placeholder="Add details about the work, quality, issues or outcome"></textarea></div>
+                        </div>
+                        <div class="past-work-form-actions"><button class="primary-btn small" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save Work Record</button><button class="secondary-btn small" id="cancelPastWorkBtn" type="button">Cancel</button></div>
+                    </form>
+                    <div class="contractor-table-wrap">
+                        <table class="contractor-table past-work-table">
+                            <thead><tr><th>Work / Type</th><th>Contractor</th><th>Location</th><th>Period</th><th>Amount</th><th>Final status</th><th>Details</th><th>Action</th></tr></thead>
+                            <tbody id="pastWorkHistoryList"><tr><td colspan="8" class="contractor-empty">Loading past work records…</td></tr></tbody>
+                        </table>
+                    </div>
+                    <p class="contractor-register-note">Past records are stored in this browser and can be added or removed by the Sarpanch/admin.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Contractor assignment overview: Sarpanch assigns work in Development Projects. -->
+        <section id="contractors" class="projects-section page-section">
+            <div class="section-heading">
+                <div>
+                    <h2>Contractor</h2>
+                    <p>Assigned work, responsible contractor and work duration</p>
+                </div>
+            </div>
+            <div class="dashboard-grid" style="grid-template-columns:1fr">
+                <div class="dashboard-card projects-card contractor-overview-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>Contractor Work Register</h3>
+                            <p>Assignments and editing deadlines set by the Sarpanch</p>
+                        </div>
+                        <button class="primary-btn small" id="addContractorBtn" hidden><i class="fa-solid fa-user-plus"></i> Add Contractor</button>
+                    </div>
+                    <div class="contractor-table-wrap contractor-directory-wrap">
+                        <h3 class="contractor-subheading">Registered Contractors</h3>
+                        <table class="contractor-table">
+                            <thead><tr><th>Contractor</th><th>Email</th><th>Phone</th><th>Assigned works</th><th>Action</th></tr></thead>
+                            <tbody id="contractorDirectoryList"><tr><td colspan="5">Loading contractors…</td></tr></tbody>
+                        </table>
+                    </div>
+                    <div class="contractor-table-wrap">
+                        <table class="contractor-table">
+                            <thead><tr><th>Work</th><th>Contractor</th><th>Duration</th><th>Editing deadline</th><th>Status</th></tr></thead>
+                            <tbody id="contractorWorkList"><tr><td colspan="5">Loading contractor assignments…</td></tr></tbody>
+                        </table>
+                    </div>
+                    <p class="contractor-register-note" id="contractorRegisterNote">The Sarpanch can assign a contractor and deadline from Projects → Edit Project.</p>
+                </div>
+            </div>
+        </section>
+
+            <section id="complaints" class="complaints-section page-section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Citizen Complaints & Feedback</h2>
+                        <p>Monitor public issues and their resolution</p>
+                    </div>
+
+                    <div class="complaints-header-actions" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+                        <button class="secondary-btn small gv-sarpanch-btn" id="addSarpanchComplaintBtn" style="border-color:#ef4444;color:#dc2626;background:rgba(239,68,68,.06);font-weight:700">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                            Grievance on Sarpanch
+                        </button>
+                        <button class="primary-btn small" id="addComplaintBtn">
+                            <i class="fa-solid fa-plus"></i>
+                            Submit Complaint
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <div class="complaint-summary">
+
+                    <div class="complaint-stat">
+                        <span class="complaint-number" id="totalComplaintsCount">24</span>
+                        <span>Total Complaints</span>
+                    </div>
+
+                    <div class="complaint-stat">
+                        <span class="complaint-number pending" id="pendingComplaintsCount">7</span>
+                        <span>Pending</span>
+                    </div>
+
+                    <div class="complaint-stat">
+                        <span class="complaint-number progress" id="progressComplaintsCount">5</span>
+                        <span>In Progress</span>
+                    </div>
+
+                    <div class="complaint-stat">
+                        <span class="complaint-number resolved" id="resolvedComplaintsCount">12</span>
+                        <span>Resolved</span>
+                    </div>
+
+                </div>
+
+
+                <!-- Top 3 Most Complained Topics (admin-only — see script.js) -->
+                <div class="complaint-subsection" id="topComplaintsSection">
+
+                    <h3 class="subsection-title">
+                        <i class="fa-solid fa-fire"></i>
+                        Top 3 Most Complained Topics
+                    </h3>
+
+                    <div class="top-complaints-grid" id="topComplaintsGrid">
+                        <!-- populated by JS -->
+                    </div>
+
+                </div>
+
+
+                <!-- Category-filtered complaints (admin only) — shown when the
+                     admin clicks one of the "Top 3 Most Complained Topics" cards
+                     above. Every complaint in that category is listed as a card
+                     in a grid: applicant name, date, time, location, and a
+                     button to view the attached photo (the photo itself is
+                     never shown directly, same pattern as the other lists). -->
+                <div class="complaint-subsection hidden" id="categoryComplaintsSection">
+
+                    <div class="category-complaints-head">
+                        <h3 class="subsection-title">
+                            <i class="fa-solid fa-layer-group" id="categoryComplaintsIcon"></i>
+                            <span id="categoryComplaintsTitle">Category Complaints</span>
+                        </h3>
+
+                        <button class="secondary-btn small" id="backToComplaintsBtn">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Back</span>
+                        </button>
+                    </div>
+
+                    <div class="category-complaints-grid" id="categoryComplaintsGrid">
+                        <!-- populated by JS -->
+                    </div>
+
+                </div>
+
+
+                <!-- Complaints by category — one card per category with the
+                     total count, its share of all complaints, and a male/
+                     female/other split. Admins can click a card to drill
+                     into that category's individual complaints (below);
+                     villagers see the same totals but the cards aren't
+                     clickable, so individual names stay admin-only. -->
+                <div class="complaint-subsection" id="citizenComplaintsSection">
+
+                    <h3 class="subsection-title">
+                        <i class="fa-solid fa-list-ul"></i>
+                        <span>Complaints by Category</span>
+                    </h3>
+
+                    <div class="category-summary-grid" id="complaintCategoryGrid">
+                        <!-- populated by JS -->
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================================
+                 COMPLAINTS DEVELOPMENT
+                 Its own top-level page (separate from Complaints),
+                 showing admin-posted progress updates on how overall
+                 complaint resolution is coming along. "Add Update"
+                 button + edit/delete controls on each entry only
+                 render for admins (see renderComplaintsDevelopment
+                 in script.js); villagers get a read-only view.
+            ================================= -->
+            <section id="complaintsDevelopment" class="complaints-section page-section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Complaints Development</h2>
+                        <p>Progress updates on resolving citizen complaints, posted by the village admin</p>
+                    </div>
+
+                    <!-- Admin-only: post a new development update. Hidden
+                         by default; script.js reveals it only when the
+                         logged-in session's role is "admin". -->
+                    <button class="primary-btn small" id="addComplaintUpdateBtn" hidden>
+                        <i class="fa-solid fa-plus"></i>
+                        Add Update
+                    </button>
+
+                </div>
+
+                <!-- Summary cards: how much of the complaint-resolution
+                     process is done overall. Populated by JS
+                     (renderComplaintsDevStats in script.js). -->
+                <div class="complaints-dev-stats-grid" id="complaintsDevStatsGrid"></div>
+
+                <div class="complaint-subsection" id="complaintsDevelopmentSection">
+
+                    <!-- Populated by JS (renderComplaintsDevelopment in script.js).
+                         Edit/delete buttons on each update only render for
+                         admins; villagers get a read-only timeline. -->
+                    <div class="complaints-dev-list" id="complaintsDevList"></div>
+
+                </div>
+
+            </section>
+
+
+            <section id="reports" class="reports-section page-section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Reports</h2>
+                        <p>Generate and view village development reports</p>
+                    </div>
+
+                </div>
+
+
+                <div class="report-grid">
+
+                    <button class="report-card" id="monthlyReport">
+
+                        <i class="fa-solid fa-file-pdf"></i>
+
+                        <div>
+                            <h3>Monthly Report</h3>
+                            <p>View current month development report</p>
+                        </div>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+
+                    <button class="report-card" id="annualReport">
+
+                        <i class="fa-solid fa-chart-column"></i>
+
+                        <div>
+                            <h3>Annual Report</h3>
+                            <p>View yearly development performance</p>
+                        </div>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+
+                    <button class="report-card" id="projectReport">
+
+                        <i class="fa-solid fa-building-circle-check"></i>
+
+                        <div>
+                            <h3>Project Report</h3>
+                            <p>View development project status</p>
+                        </div>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+        <!-- ================================
+             SETTINGS
+        ================================= -->
+        <section id="settings" class="settings-section page-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Settings</h2>
+                    <p>Manage dashboard preferences and account details</p>
+                </div>
+
+            </div>
+
+            <div class="dashboard-grid">
+
+                <div class="dashboard-card">
+
+                    <div class="card-header">
+                        <div>
+                            <h3>Appearance</h3>
+                            <p>Switch between light and dark theme</p>
+                        </div>
+                    </div>
+
+                    <div class="score-details">
+
+                        <div class="score-item">
+                            <span>
+                                <i class="fa-solid fa-moon"></i>
+                                Dark Mode
+                            </span>
+                            <button class="primary-btn small" id="settingsThemeToggle" type="button">
+                                Toggle Theme
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="dashboard-card">
+
+                    <div class="card-header">
+                        <div>
+                            <h3>Account</h3>
+                            <p>Your registered details</p>
+                        </div>
+
+                        <div class="account-header-actions">
+                            <button class="secondary-btn small" id="changePasswordBtn" type="button">
+                                <i class="fa-solid fa-key"></i> Change Password
+                            </button>
+                            <button class="primary-btn small" id="editProfileBtn" type="button">
+                                <i class="fa-solid fa-pen"></i> Edit Profile
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Populated by JS (renderAccountDetails in
+                         script.js) from the logged-in user's or
+                         admin's actual stored record — not static
+                         placeholder text. -->
+                    <div class="score-details" id="accountDetails"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+            <footer class="dashboard-footer">
+
+                <div>
+                    <strong>GramVikas</strong>
+                    <span>
+                        Village Development Dashboard
+                    </span>
+                </div>
+
+                <div>
+                    <span>
+                        © 2026 Village Development Project
+                    </span>
+                </div>
+
+                <div>
+                    <span>
+                        Designed for College Project
+                    </span>
+                </div>
+
+            </footer>
+
+    </main>
+
+
+    <!-- ================================
+         NOTIFICATION PANEL
+    ================================= -->
+    <div class="notification-panel" id="notificationPanel">
+
+        <div class="notification-header">
+            <div>
+                <h3>Notifications</h3>
+                <span>3 new notifications</span>
+            </div>
+
+            <button id="closeNotifications">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+
+        <div class="notification-list">
+
+            <div class="notification-item unread">
+
+                <div class="notification-item-icon">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+
+                <div>
+                    <strong>Gram Sabha Meeting</strong>
+                    <p>Meeting scheduled for 15 August 2026.</p>
+                    <small>2 hours ago</small>
+                </div>
+
+            </div>
+
+
+            <div class="notification-item unread">
+
+                <div class="notification-item-icon">
+                    <i class="fa-solid fa-droplet"></i>
+                </div>
+
+                <div>
+                    <strong>Water Supply Update</strong>
+                    <p>Maintenance work scheduled tomorrow.</p>
+                    <small>Yesterday</small>
+                </div>
+
+            </div>
+
+
+            <div class="notification-item">
+
+                <div class="notification-item-icon">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+
+                <div>
+                    <strong>Project Completed</strong>
+                    <p>Primary school renovation is completed.</p>
+                    <small>3 days ago</small>
+                </div>
+
+            </div>
+
+        </div>
+
+        <button class="clear-notifications" id="clearNotifications">
+            Mark all as read
+        </button>
+
+    </div>
+
+
+    <!-- ================================
+         EDIT PROFILE MODAL
+    ================================= -->
+    <div class="modal-overlay" id="editProfileModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Edit Profile</h2>
+                    <p>Update your registered details</p>
+                </div>
+
+                <button class="modal-close" id="closeEditProfileModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+
+            <form id="editProfileForm">
+
+                <div class="form-group">
+                    <label for="editProfileName">Full Name</label>
+                    <input type="text" id="editProfileName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editProfileGmail">Gmail Address</label>
+                    <input type="email" id="editProfileGmail" disabled>
+                    <span class="form-hint">
+                        Your Gmail is used to sign in and can't be changed here.
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label for="editProfileMobile">Mobile Number</label>
+                    <input type="tel" id="editProfileMobile" placeholder="10-digit mobile number" maxlength="10" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editProfileState">State</label>
+                    <select id="editProfileState" required>
+                        <option value="" disabled>Select state</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Karnataka">Karnataka</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="editProfileDist">District</label>
+                        <select id="editProfileDist" required disabled>
+                            <option value="" disabled>Select state first</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editProfileTal">Taluka / Taluk</label>
+                        <select id="editProfileTal" required disabled>
+                            <option value="" disabled>Select district first</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="editProfileVillage">Village Name</label>
+                    <select id="editProfileVillage" required disabled>
+                        <option value="" disabled>Select taluka first</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="primary-btn auth-submit">
+                    <i class="fa-solid fa-check"></i> Save Changes
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         CHANGE PASSWORD MODAL
+    ================================= -->
+    <div class="modal-overlay" id="changePasswordModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Change Password</h2>
+                    <p>Choose a new password for your account</p>
+                </div>
+
+                <button class="modal-close" id="closeChangePasswordModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+
+            <form id="changePasswordForm">
+
+                <div class="form-group">
+                    <label for="currentPassword">Current Password</label>
+                    <div class="pw-input-wrap">
+                        <input type="password" id="currentPassword" required>
+                        <button type="button" class="toggle-eye" data-target="currentPassword">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <div class="pw-input-wrap">
+                        <input type="password" id="newPassword" placeholder="Min 6 characters" required>
+                        <button type="button" class="toggle-eye" data-target="newPassword">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmNewPassword">Confirm New Password</label>
+                    <div class="pw-input-wrap">
+                        <input type="password" id="confirmNewPassword" required>
+                        <button type="button" class="toggle-eye" data-target="confirmNewPassword">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="primary-btn auth-submit">
+                    <i class="fa-solid fa-key"></i> Update Password
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         EDIT DEVELOPMENT INDICATOR MODAL (admin only)
+    ================================= -->
+    <div class="modal-overlay" id="editIndicatorModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2 id="indicatorModalTitle">Edit Indicator</h2>
+                    <p>Update sector-wise development data</p>
+                </div>
+
+                <button class="modal-close" id="closeEditIndicatorModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+
+            <form id="editIndicatorForm">
+
+                <input type="hidden" id="indicatorId">
+
+                <div class="form-group">
+                    <label for="indicatorPercent">Overall Score (%)</label>
+                    <input type="number" id="indicatorPercent" min="0" max="100" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="indicatorDescription">Description</label>
+                    <input type="text" id="indicatorDescription" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="indicatorMetric1Label">Metric 1 Label</label>
+                        <input type="text" id="indicatorMetric1Label" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="indicatorMetric1Value">Value (%)</label>
+                        <input type="number" id="indicatorMetric1Value" min="0" max="100" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="indicatorMetric2Label">Metric 2 Label</label>
+                        <input type="text" id="indicatorMetric2Label" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="indicatorMetric2Value">Value (%)</label>
+                        <input type="number" id="indicatorMetric2Value" min="0" max="100" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="indicatorMetric3Label">Metric 3 Label</label>
+                        <input type="text" id="indicatorMetric3Label" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="indicatorMetric3Value">Value (%)</label>
+                        <input type="number" id="indicatorMetric3Value" min="0" max="100" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="primary-btn auth-submit">
+                    <i class="fa-solid fa-check"></i> Save Changes
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         EDIT VILLAGE PROFILE STAT MODAL (admin only)
+         Used for the Population / Households / Literacy /
+         Development / Schools / Hospitals cards at the top
+         of the Village Profile page.
+    ================================= -->
+    <div class="modal-overlay" id="editVillageStatModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2 id="villageStatModalTitle">Edit Stat</h2>
+                    <p>Update this village profile figure</p>
+                </div>
+
+                <button class="modal-close" id="closeEditVillageStatModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+
+            <form id="editVillageStatForm">
+
+                <input type="hidden" id="villageStatId">
+
+                <div class="form-group">
+                    <label for="villageStatValue">Value</label>
+                    <input type="number" id="villageStatValue" min="0" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="villageStatChangeDirection">Change Direction</label>
+                        <select id="villageStatChangeDirection">
+                            <option value="positive">Increase</option>
+                            <option value="negative">Decrease</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="villageStatChangeAmount">Change Amount</label>
+                        <input type="text" id="villageStatChangeAmount" placeholder="e.g. 4.2% or 1" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="villageStatSubtitle">Subtitle</label>
+                    <input type="text" id="villageStatSubtitle" placeholder="e.g. Compared to previous year" required>
+                </div>
+
+                <button type="submit" class="primary-btn auth-submit">
+                    <i class="fa-solid fa-check"></i> Save Changes
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         ADD / EDIT PROJECT MODAL (admin only)
+    ================================= -->
+    <div class="modal-overlay" id="editProjectModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2 id="projectModalTitle">Edit Project</h2>
+                    <p>Update village project details</p>
+                </div>
+
+                <button class="modal-close" id="closeEditProjectModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+
+            <form id="editProjectForm">
+
+                <input type="hidden" id="projectId">
+
+                <div class="form-group">
+                    <label for="projectTitle">Project Title</label>
+                    <input type="text" id="projectTitle" placeholder="e.g. Internal Road Development" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectDescription">Description</label>
+                    <input type="text" id="projectDescription" placeholder="e.g. Construction of 3.5 km village roads" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectCategory">Category</label>
+                    <select id="projectCategory" required>
+                        <option value="road">Roads</option>
+                        <option value="water">Water Supply</option>
+                        <option value="school">Education</option>
+                        <option value="solar">Energy</option>
+                    </select>
+                </div>
+
+                <section class="project-status-panel" aria-labelledby="projectStatusSectionTitle">
+                    <div class="project-form-section-heading">
+                        <span class="project-form-section-icon"><i class="fa-solid fa-chart-line"></i></span>
+                        <div>
+                            <h3 id="projectStatusSectionTitle">Project Status</h3>
+                            <p>Update the current progress and completion status.</p>
+                        </div>
+                    </div>
+                    <div class="form-row project-status-fields">
+                        <div class="form-group">
+                            <label for="projectStatus">Status</label>
+                            <select id="projectStatus" required>
+                                <option value="planned">Planned</option>
+                                <option value="ongoing">Ongoing</option>
+                                <option value="completed">Completed</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <div class="form-group project-status-details-group" id="projectStatusDetailsGroup" hidden style="margin-top: 12px;">
+                                <label for="projectStatusDetails">Other status details</label>
+                                <textarea id="projectStatusDetails" rows="3" maxlength="1000" placeholder="Describe the current project status or provide additional details..."></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="projectProgress">Progress (%)</label>
+                            <input type="number" id="projectProgress" min="0" max="100" required>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="project-assignment-panel" id="projectAssignmentFields" hidden>
+                    <div class="project-form-section-heading">
+                        <span class="project-form-section-icon"><i class="fa-solid fa-user-gear"></i></span>
+                        <div>
+                            <h3>Assign Project</h3>
+                            <p>Choose the contractor responsible for this work.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectContractorSelect">Choose registered contractor</label>
+                        <select id="projectContractorSelect"><option value="">Select a contractor (or enter details below)</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectContractorName">Contractor name</label>
+                        <input type="text" id="projectContractorName" placeholder="Enter contractor full name" maxlength="120">
+                    </div>
+                    <div class="form-group">
+                        <label for="projectContractorEmail">Contractor login email</label>
+                        <input type="email" id="projectContractorEmail" placeholder="contractor@example.com" maxlength="160">
+                    </div>
+                    <div class="form-group">
+                        <label for="projectContractorStart">Work starts</label>
+                        <input type="datetime-local" id="projectContractorStart">
+                    </div>
+                    <div class="form-group">
+                        <label for="projectContractorDeadline">Editing allowed until</label>
+                        <input type="datetime-local" id="projectContractorDeadline">
+                    </div>
+                    <p class="form-help">The contractor name, work duration and deadline appear in the Contractor section. Only the assigned contractor email can update this work before the deadline. Leave the email blank to remove the assignment.</p>
+                </div>
+
+                <button type="submit" class="primary-btn auth-submit">
+                    <i class="fa-solid fa-check"></i> Save Project
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         ADD CONTRACTOR MODAL (Sarpanch only)
+    ================================= -->
+    <div class="modal-overlay" id="addContractorModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div><h2>Add Contractor</h2><p>Register a contractor before assigning village work.</p></div>
+                <button class="modal-close" id="closeAddContractorModal" type="button"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="addContractorForm">
+                <div class="form-group"><label for="newContractorName">Full name</label><input id="newContractorName" type="text" maxlength="120" required placeholder="Enter contractor full name"></div>
+                <div class="form-group"><label for="newContractorEmail">Login email</label><input id="newContractorEmail" type="email" maxlength="160" required placeholder="contractor@example.com"></div>
+                <div class="form-group"><label for="newContractorPhone">Phone (optional)</label><input id="newContractorPhone" type="tel" maxlength="24" placeholder="Enter phone number"></div>
+                <button type="submit" class="primary-btn auth-submit"><i class="fa-solid fa-check"></i> Save Contractor</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================================
+         ADD / EDIT COMPLAINT DEVELOPMENT UPDATE MODAL (admin only)
+    ================================= -->
+    <div class="modal-overlay" id="editComplaintDevModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2 id="complaintDevModalTitle">Add Development Update</h2>
+                    <p>Post a progress update on complaint resolution</p>
+                </div>
+
+                <button class="modal-close" id="closeEditComplaintDevModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+
+            <form id="editComplaintDevForm">
+
+                <input type="hidden" id="complaintDevId">
+
+                <div class="form-group">
+                    <label for="complaintDevComplaintSelect">Related Complaint</label>
+                    <select id="complaintDevComplaintSelect" required>
+                        <option value="">— Select a complaint —</option>
+                        <!-- Populated by JS (populateComplaintDevSelect in script.js)
+                             from the actual complaints stored under "Complaints" —
+                             only complaints that already exist there can be picked. -->
+                    </select>
+                    <small class="complaint-dev-select-hint" id="complaintDevSelectedInfo"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="complaintDevNote">Update Note</label>
+                    <input type="text" id="complaintDevNote" placeholder="e.g. Maintenance team has started replacing faulty streetlights" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="complaintDevPercent">Resolution Progress (%)</label>
+                    <input type="number" id="complaintDevPercent" min="0" max="100" required>
+                </div>
+
+                <button type="submit" class="primary-btn auth-submit">
+                    <i class="fa-solid fa-check"></i> Save Update
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         COMPLAINT MODAL
+    ================================= -->
+    <div class="modal-overlay" id="complaintModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Submit Complaint</h2>
+                    <p>Report an issue in your village</p>
+                </div>
+
+                <button class="modal-close" id="closeComplaintModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+
+            <form id="complaintForm">
+
+                <div class="form-group">
+
+                    <label for="citizenName">
+                        Citizen Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="citizenName"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="complaintCategory">
+                        Complaint Category
+                    </label>
+
+                    <select id="complaintCategory" required>
+
+                        <option value="">
+                            Select category
+                        </option>
+
+                        <option value="sarpanch" style="font-weight:700;color:#dc2626">
+                            ⚖️ Grievance Against Sarpanch / Panchayat Authority
+                        </option>
+
+                        <option value="water">
+                            Water Supply
+                        </option>
+
+                        <option value="road">
+                            Roads
+                        </option>
+
+                        <option value="electricity">
+                            Electricity
+                        </option>
+
+                        <option value="sanitation">
+                            Sanitation
+                        </option>
+
+                        <option value="education">
+                            Education
+                        </option>
+
+                        <option value="health">
+                            Healthcare
+                        </option>
+
+                        <option value="other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- Specialized Sarpanch Grievance & Escalation Panel -->
+                <div class="sarpanch-grievance-panel" id="sarpanchGrievancePanel" hidden style="margin-bottom:18px;padding:16px;border:1px solid rgba(239,68,68,.35);border-radius:14px;background:rgba(239,68,68,.05)">
+                    <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px;color:#dc2626;font-size:12px;font-weight:800">
+                        <i class="fa-solid fa-scale-balanced" style="font-size:14px"></i>
+                        <span>Official Sarpanch Grievance & Vigilance Escalation</span>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:12px">
+                        <label for="sarpanchIssueType">Specific Grievance Nature</label>
+                        <select id="sarpanchIssueType">
+                            <option value="Funds / Budget Irregularity">Misuse of Panchayat funds / Budget irregularity</option>
+                            <option value="Project Quality / Work Delay">Substandard road/construction work or unexplained delay</option>
+                            <option value="Scheme Beneficiary Bias">Favoritism / exclusion in welfare scheme lists (PMAY, etc.)</option>
+                            <option value="Gram Sabha Transparency">Lack of open Gram Sabha meetings or hidden decisions</option>
+                            <option value="Certificate / Service Denial">Refusal or delay in birth/death/income NOCs & civic services</option>
+                            <option value="Encroachment / Permission Misuse">Unauthorized construction or land clearance permissions</option>
+                            <option value="Negligence of Duties">Continuous absence / negligence in resolving public problems</option>
+                            <option value="Other Misconduct">Other governance grievance</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:12px">
+                        <label for="sarpanchEscalationAuthority">Escalate To Higher Oversight Authority</label>
+                        <select id="sarpanchEscalationAuthority">
+                            <option value="Block Development Officer (BDO)">Block Development Officer (BDO) - Taluka Panchayat</option>
+                            <option value="CEO, Zilla Parishad">Chief Executive Officer (CEO) - Zilla Parishad</option>
+                            <option value="Gram Sabha Vigilance Committee">Gram Sabha Vigilance & Social Audit Committee</option>
+                            <option value="District Public Grievance Cell">District Collectorate / Public Grievance Cell</option>
+                        </select>
+                    </div>
+
+                    <div style="display:flex;align-items:center;gap:10px;padding:8px 0">
+                        <input type="checkbox" id="sarpanchConfidential" style="width:17px;height:17px;accent-color:#ef4444;cursor:pointer">
+                        <label for="sarpanchConfidential" style="cursor:pointer;margin:0;font-size:11px;font-weight:600;color:var(--text)">
+                            Keep identity confidential (Whistleblower protection against retaliation)
+                        </label>
+                    </div>
+                    <small style="display:block;margin-top:6px;font-size:9.5px;color:var(--muted);line-height:1.5">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        Under the Panchayati Raj Act, complaints concerning the Sarpanch are submitted with independent escalation to the selected authority and are protected from local tampering.
+                    </small>
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="complaintGender">
+                        Gender
+                    </label>
+
+                    <select id="complaintGender" required>
+
+                        <option value="">
+                            Select gender
+                        </option>
+
+                        <option value="male">
+                            Male
+                        </option>
+
+                        <option value="female">
+                            Female
+                        </option>
+
+                        <option value="other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="complaintLocation">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="complaintLocation"
+                        placeholder="e.g. Ward 4, near Gram Panchayat office"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="complaintDescription">
+                        Complaint Description
+                    </label>
+
+                    <textarea
+                        id="complaintDescription"
+                        rows="4"
+                        placeholder="Describe your issue..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="complaintPhoto">
+                        Attach Photo <span class="optional-tag">(optional)</span>
+                    </label>
+
+                    <div class="photo-upload" id="photoUpload">
+
+                        <input
+                            type="file"
+                            id="complaintPhoto"
+                            accept="image/*"
+                            hidden
+                        >
+
+                        <div class="photo-upload-empty" id="photoUploadEmpty">
+
+                            <i class="fa-solid fa-camera"></i>
+
+                            <p>
+                                <strong>Click to upload</strong> a photo of the issue
+                            </p>
+
+                            <span>PNG or JPG, up to 8MB</span>
+
+                        </div>
+
+                        <div class="photo-upload-preview" id="photoUploadPreview" hidden>
+
+                            <img id="photoPreviewImg" alt="Preview of the attached complaint photo">
+
+                            <button
+                                type="button"
+                                class="photo-remove-btn"
+                                id="removePhotoBtn"
+                                title="Remove photo"
+                            >
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <span class="form-hint">
+                        A clear photo of the issue helps our team understand and resolve it faster.
+                    </span>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        id="cancelComplaint"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                    >
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Submit Complaint
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         COMPLAINT PHOTO LIGHTBOX
+    ================================= -->
+    <div class="modal-overlay lightbox-overlay" id="photoLightbox">
+
+        <div class="lightbox-box">
+
+            <button class="modal-close lightbox-close" id="closePhotoLightbox">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <img id="lightboxImg" alt="Complaint photo, full size">
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         COMPLAINT DETAIL MODAL (admin only)
+         Shown when an admin clicks any complaint card —
+         full detail: who filed it, date, time, photo.
+    ================================= -->
+    <div class="modal-overlay" id="complaintDetailModal">
+
+        <div class="modal complaint-detail-modal">
+
+            <div class="modal-header">
+
+                <div class="scheme-modal-heading">
+
+                    <div class="scheme-modal-icon" id="complaintDetailIcon">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+
+                    <div>
+                        <h2 id="complaintDetailCategory">Category</h2>
+                        <span class="complaint-badge" id="complaintDetailStatus">Status</span>
+                    </div>
+
+                </div>
+
+                <button class="modal-close" id="closeComplaintDetailModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+
+            <div class="complaint-detail-body">
+
+                <img
+                    class="complaint-detail-photo hidden"
+                    id="complaintDetailPhoto"
+                    alt="Photo attached to this complaint"
+                >
+
+                <p class="complaint-detail-desc" id="complaintDetailDescription"></p>
+
+                <div class="scheme-modal-meta complaint-detail-meta">
+
+                    <div>
+                        <span><i class="fa-solid fa-circle-user"></i> Reported By</span>
+                        <strong id="complaintDetailName">—</strong>
+                    </div>
+
+                    <div>
+                        <span><i class="fa-solid fa-envelope"></i> Email</span>
+                        <strong id="complaintDetailEmail">—</strong>
+                    </div>
+
+                    <div>
+                        <span><i class="fa-solid fa-location-dot"></i> Location</span>
+                        <strong id="complaintDetailLocation">—</strong>
+                    </div>
+
+                    <div>
+                        <span><i class="fa-solid fa-venus-mars"></i> Gender</span>
+                        <strong id="complaintDetailGender">—</strong>
+                    </div>
+
+                    <div>
+                        <span><i class="fa-regular fa-calendar"></i> Date</span>
+                        <strong id="complaintDetailDate">—</strong>
+                    </div>
+
+                    <div>
+                        <span><i class="fa-regular fa-clock"></i> Time</span>
+                        <strong id="complaintDetailTime">—</strong>
+                    </div>
+
+                <!-- Oversight & Sarpanch Clarification Section (shown for Sarpanch grievances) -->
+                <div class="sarpanch-grievance-detail-box" id="complaintSarpanchDetailBox" hidden style="margin-top:16px;padding:14px;border:1px solid #fca5a5;border-radius:12px;background:#fff5f5">
+                    <div style="display:flex;align-items:center;gap:8px;color:#b91c1c;font-size:11.5px;font-weight:800;margin-bottom:8px">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                        <span>Panchayat Vigilance & Higher Authority Escalation</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:10px;margin-bottom:10px">
+                        <div>
+                            <span style="color:var(--muted);display:block">Grievance Nature:</span>
+                            <strong id="complaintSarpanchGrievanceType" style="color:var(--text)">—</strong>
+                        </div>
+                        <div>
+                            <span style="color:var(--muted);display:block">Escalated Authority:</span>
+                            <strong id="complaintSarpanchEscalatedTo" style="color:#b91c1c">—</strong>
+                        </div>
+                    </div>
+                    <div id="complaintSarpanchResponseDisplay" style="margin-top:10px;padding:10px;border-radius:8px;background:#ffffff;border:1px solid #fecaca;font-size:10.5px">
+                        <strong style="color:#991b1b;display:block;margin-bottom:4px"><i class="fa-solid fa-reply"></i> Official Clarification from Sarpanch:</strong>
+                        <p id="complaintSarpanchResponseText" style="margin:0;color:var(--text);line-height:1.5">No formal explanation submitted yet.</p>
+                    </div>
+
+                    <!-- Sarpanch Reply Form (only shown to Sarpanch session) -->
+                    <form id="sarpanchClarificationForm" hidden style="margin-top:12px;display:grid;gap:8px">
+                        <label for="sarpanchClarificationInput" style="font-size:10px;font-weight:700;color:#991b1b">
+                            Submit Official Sarpanch Clarification / Action Taken:
+                        </label>
+                        <textarea id="sarpanchClarificationInput" rows="3" placeholder="Provide factual response or action taken regarding this citizen grievance..." required style="width:100%;box-sizing:border-box;border:1px solid #fca5a5;border-radius:8px;padding:8px;font-size:11px"></textarea>
+                        <button type="submit" class="primary-btn small" style="justify-self:start;background:#b91c1c;color:#fff">
+                            <i class="fa-solid fa-floppy-disk"></i> Post Official Response
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         REPORT MODAL
+    ================================= -->
+    <div class="modal-overlay" id="reportModal">
+
+        <div class="modal report-modal">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2 id="reportTitle">
+                        Development Report
+                    </h2>
+
+                    <p id="reportSubtitle">
+                        Village development summary
+                    </p>
+                </div>
+
+                <button class="modal-close" id="closeReportModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+
+            <div class="report-preview" id="reportPreview">
+
+                <div class="report-logo">
+                    <i class="fa-solid fa-house-chimney"></i>
+                </div>
+
+                <h2>Village Development Report</h2>
+
+                <p>Adarsh Gram • 2026</p>
+
+                <div class="report-summary-grid">
+
+                    <div>
+                        <strong>8,450</strong>
+                        <span>Population</span>
+                    </div>
+
+                    <div>
+                        <strong>76%</strong>
+                        <span>Development</span>
+                    </div>
+
+                    <div>
+                        <strong>82%</strong>
+                        <span>Literacy</span>
+                    </div>
+
+                    <div>
+                        <strong>97%</strong>
+                        <span>Electricity</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                    class="secondary-btn"
+                    id="closeReport"
+                >
+                    Close
+                </button>
+
+                <button
+                    class="primary-btn"
+                    id="printReport"
+                >
+                    <i class="fa-solid fa-print"></i>
+                    Print Report
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         TOAST MESSAGE
+    ================================= -->
+    <div class="toast" id="toast">
+
+        <div class="toast-icon">
+            <i class="fa-solid fa-check"></i>
+        </div>
+
+        <div class="toast-content">
+            <strong id="toastTitle">Success</strong>
+            <p id="toastMessage">
+                Operation completed successfully.
+            </p>
+        </div>
+
+        <button id="closeToast">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+    </div>
+
+
+    <!-- ================================
+         CHART.JS
+    ================================= -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <!-- ================================
+         AUTH GUARD (session, profile, logout)
+    ================================= -->
+    <script src="pro-effects.js"></script>
+    <script src="auth-guard.js"></script>
+
+
+    <!-- ================================
+         STATE/DISTRICT/TALUKA/VILLAGE DATA
+         (needed by script.js to power the location
+         dropdowns in the Edit Profile modal)
+    ================================= -->
+    <script src="maharashtra-data.js"></script>
+    <script src="karnataka-data.js"></script>
+
+
+    <!-- ================================
+         MAIN JAVASCRIPT
+    ================================= -->
+    <script src="script.js"></script>
+    <script src="enhancements.js"></script>
+
+</body>
+</html>

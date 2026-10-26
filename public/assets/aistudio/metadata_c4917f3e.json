@@ -1,0 +1,6 @@
+{
+  "name": "GramVikas - Village Development Dashboard",
+  "description": "GramVikas Village Development Dashboard - Track, manage, and monitor rural development progress, public services, infrastructure, and citizen complaints.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

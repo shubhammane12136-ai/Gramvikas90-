@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In — GramVikas</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="pro-effects.css">
+</head>
+<body class="auth-body">
+
+    <div class="auth-shell">
+
+        <!-- ============ LEFT BRANDING PANEL ============ -->
+        <div class="auth-brand">
+
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-house-chimney"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>Gram<span>Vikas</span></h2>
+                    <small>Village Development</small>
+                </div>
+            </div>
+
+            <div class="auth-brand-copy">
+                <h1>Track. Manage. Develop.</h1>
+                <p>
+                    One dashboard for village services, development projects
+                    and citizen complaints.
+                </p>
+            </div>
+
+            <ul class="auth-brand-points">
+                <li><i class="fa-solid fa-circle-check"></i> Separate access for villagers and village administrators</li>
+                <li><i class="fa-solid fa-circle-check"></i> Dedicated Sarpanch and Contractor entry pages</li>
+                <li><i class="fa-solid fa-circle-check"></i> All your village data in one place</li>
+            </ul>
+
+            <div class="floating-icon icon-one"><i class="fa-solid fa-sun"></i></div>
+            <div class="floating-icon icon-two"><i class="fa-solid fa-seedling"></i></div>
+            <div class="floating-icon icon-three"><i class="fa-solid fa-house"></i></div>
+
+        </div>
+
+
+        <!-- ============ RIGHT AUTH PANEL ============ -->
+        <div class="auth-panel">
+
+            <button class="header-icon auth-theme-toggle" id="authThemeToggle" title="Toggle theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+
+            <div class="auth-card">
+
+                <!-- ==================================================
+                     VILLAGER / ADMIN ROLE ENTRY
+                     This front-end demo uses role-entry buttons rather
+                     than verified credentials. Add server-side auth
+                     before using this for real village administration.
+                =================================================== -->
+                <div class="auth-view" id="combinedLoginView">
+
+                    <div class="auth-view-head">
+                        <h2>Sign In</h2>
+                        <p>Choose your access type to continue to GramVikas.</p>
+                    </div>
+
+                    <div class="role-select-buttons">
+                        <button type="button" class="primary-btn auth-submit" id="continueAsUserBtn">
+                            <i class="fa-solid fa-user"></i> Continue as Villager
+                        </button>
+                        <button type="button" class="primary-btn auth-submit" id="continueAsAdminBtn">
+                            <i class="fa-solid fa-user-shield"></i> Sarpanch / Contractor Login
+                        </button>
+                    </div>
+
+                    <p class="auth-switch">
+                        New villager?
+                        <a href="#" data-switch="userRegisterView">Create an account</a>
+                    </p>
+
+                </div>
+
+
+                <!-- ==================================================
+                     ADMIN ROLE SELECTOR
+                =================================================== -->
+                <div class="auth-view" id="adminRoleChoiceView" hidden>
+                    <div class="auth-view-head">
+                        <h2>Administrator Login</h2>
+                        <p>Select your role to open the appropriate login page.</p>
+                    </div>
+                    <div class="role-select-buttons">
+                        <button type="button" class="primary-btn auth-submit" id="openSarpanchLoginBtn">
+                            <i class="fa-solid fa-user-tie"></i> Sarpanch Login
+                        </button>
+                        <button type="button" class="primary-btn auth-submit" id="openContractorLoginBtn">
+                            <i class="fa-solid fa-helmet-safety"></i> Contractor Login
+                        </button>
+                    </div>
+                    <p class="auth-switch"><a href="#" data-switch="combinedLoginView"><i class="fa-solid fa-arrow-left"></i> Back to sign in</a></p>
+                </div>
+
+                <!-- SARPANCH LOGIN PAGE -->
+                <div class="auth-view" id="sarpanchLoginView" hidden>
+                    <div class="auth-view-head">
+                        <h2>Sarpanch Login</h2>
+                        <p>Enter the GramVikas dashboard as the village administrator.</p>
+                    </div>
+                    <div class="role-select-buttons">
+                        <button type="button" class="primary-btn auth-submit" id="sarpanchLoginBtn">
+                            <i class="fa-solid fa-right-to-bracket"></i> Continue as Sarpanch
+                        </button>
+                    </div>
+                    <p class="auth-switch"><a href="#" data-switch="adminRoleChoiceView"><i class="fa-solid fa-arrow-left"></i> Choose another role</a></p>
+                </div>
+
+                <!-- CONTRACTOR LOGIN PAGE: OPEN DEMO ACCESS FOR NOW -->
+                <div class="auth-view" id="contractorLoginView" hidden>
+                    <div class="auth-view-head">
+                        <h2>Contractor Login</h2>
+                        <p>Enter the same email address that the Sarpanch used when assigning your work.</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="contractorNameInput">Contractor name</label>
+                        <input id="contractorNameInput" type="text" autocomplete="name" maxlength="100" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contractorEmailInput">Assigned email address</label>
+                        <input id="contractorEmailInput" type="email" autocomplete="email" maxlength="160" placeholder="contractor@example.com" required>
+                    </div>
+                    <div class="otp-demo-box" role="note">
+                        <i class="fa-solid fa-circle-info"></i>
+                        Demo access: the name and email are not verified by a server. Use real authentication before handling official data.
+                    </div>
+                    <div class="role-select-buttons">
+                        <button type="button" class="primary-btn auth-submit" id="contractorLoginBtn">
+                            <i class="fa-solid fa-right-to-bracket"></i> Continue as Contractor
+                        </button>
+                    </div>
+                    <p class="auth-switch"><a href="#" data-switch="adminRoleChoiceView"><i class="fa-solid fa-arrow-left"></i> Choose another role</a></p>
+                </div>
+
+
+                <!-- ==================================================
+                     VILLAGER (USER) — REGISTER
+                =================================================== -->
+                <div class="auth-view" id="userRegisterView" hidden>
+
+                    <div class="auth-view-head">
+                        <h2>Villager Registration</h2>
+                        <p>Fill in your details to create an account.</p>
+                    </div>
+
+                    <form id="userRegisterForm" novalidate>
+                        <!-- Reusable field markup inserted by login.js via buildRegisterFields() -->
+                    </form>
+
+                    <p class="auth-switch">
+                        Already registered?
+                        <a href="#" data-switch="combinedLoginView">Login instead</a>
+                    </p>
+
+                </div>
+
+
+                <!-- ==================================================
+                     ADMIN — STEP 2: OTP VERIFICATION
+                     (Currently unused — login.js skips straight to
+                     startSession() for admins. Left in place so OTP
+                     can be restored later; see login.js.)
+                =================================================== -->
+                <div class="auth-view" id="adminOtpView" hidden>
+
+                    <div class="auth-view-head">
+                        <h2>Two-Step Verification</h2>
+                        <p>
+                            Enter the 6-digit code sent to
+                            <strong id="otpTargetEmail">your Gmail</strong>.
+                        </p>
+                    </div>
+
+                    <div class="otp-demo-box" id="otpDemoBox">
+                        <!-- filled by login.js: demo-mode OTP display -->
+                    </div>
+
+                    <form id="adminOtpForm" novalidate>
+
+                        <div class="form-group">
+                            <label for="otpInput">Verification Code</label>
+                            <div class="input-icon">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <input
+                                    type="text"
+                                    id="otpInput"
+                                    inputmode="numeric"
+                                    maxlength="6"
+                                    placeholder="••••••"
+                                    autocomplete="one-time-code"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <button type="submit" class="primary-btn auth-submit">
+                            <i class="fa-solid fa-shield-check"></i> Verify &amp; Login
+                        </button>
+
+                    </form>
+
+                    <p class="auth-switch">
+                        <span id="otpTimerText">Code expires in 60s</span>
+                        ·
+                        <a href="#" id="resendOtpLink">Resend code</a>
+                    </p>
+
+                    <p class="auth-switch">
+                        <a href="#" data-switch="combinedLoginView">
+                            <i class="fa-solid fa-arrow-left"></i> Back to login
+                        </a>
+                    </p>
+
+                </div>
+
+
+                <!-- ==================================================
+                     ADMIN — REGISTER
+                =================================================== -->
+                <div class="auth-view" id="adminRegisterView" hidden>
+
+                    <div class="auth-view-head">
+                        <h2>Admin Registration</h2>
+                        <p>Admin accounts require Gmail-based two-step verification.</p>
+                    </div>
+
+                    <form id="adminRegisterForm" novalidate>
+                        <!-- Reusable field markup inserted by login.js via buildRegisterFields() -->
+                    </form>
+
+                    <p class="auth-switch">
+                        Already an admin?
+                        <a href="#" data-switch="combinedLoginView">Login instead</a>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         TOAST MESSAGE (same pattern as dashboard)
+    ================================= -->
+    <div class="toast" id="toast">
+        <div class="toast-icon"><i class="fa-solid fa-check"></i></div>
+        <div class="toast-content">
+            <strong id="toastTitle">Success</strong>
+            <p id="toastMessage">Operation completed successfully.</p>
+        </div>
+        <button id="closeToast"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+
+    <script src="pro-effects.js"></script>
+    <script src="maharashtra-data.js"></script>
+    <script src="karnataka-data.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>
